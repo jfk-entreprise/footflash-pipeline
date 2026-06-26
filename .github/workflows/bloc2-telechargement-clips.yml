@@ -1,0 +1,87 @@
+# =============================================================================
+# FootFlash — Bloc 2 : Telechargement automatique des clips officiels FIFA
+# =============================================================================
+# Declencheur : un nouveau JSON de match pousse dans 01_Donnees/matchs/
+#   (les noms de dossiers peuvent porter un prefixe emoji "📁 " : le filtre
+#    de chemin utilise donc des jokers tolerants *matchs*).
+#
+# Le job :
+#   1. Recupere le repo (avec Git LFS pour les .mp4).
+#   2. Installe yt-dlp + ffmpeg.
+#   3. Lance 03_Scripts/telecharger_clips.py (anti-doublon integre : seuls les
+#      matchs sans clip sont traites).
+#   4. Commit/push les clips (LFS), le log et l'etat anti-doublon.
+#
+# SECURITE : aucune cle n'est lue depuis config.md. Les secrets viennent des
+#            GitHub Secrets du repo (voir README_BLOC2.md).
+# =============================================================================
+
+name: Bloc2 - Telechargement clips FIFA
+
+on:
+  push:
+    paths:
+      - "**/*matchs*/*.json"        # nouveau JSON de match (tolerant au prefixe emoji)
+  workflow_dispatch:                # declenchement manuel possible
+
+# Empeche deux executions concurrentes de se marcher dessus (push + commit)
+concurrency:
+  group: footflash-bloc2
+  cancel-in-progress: false
+
+permissions:
+  contents: write                   # necessaire pour committer les clips et le log
+
+jobs:
+  telecharger-clips:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    steps:
+      - name: Checkout du repo (avec Git LFS)
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+          fetch-depth: 0            # historique complet (detection / push fiables)
+
+      - name: Configuration de Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Installation de yt-dlp et ffmpeg
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y ffmpeg
+          python -m pip install --upgrade pip
+          python -m pip install -U yt-dlp
+          yt-dlp --version
+          ffmpeg -version | head -n 1
+
+      - name: Telechargement des clips officiels FIFA
+        env:
+          YOUTUBE_API_KEY:    ${{ secrets.YOUTUBE_API_KEY }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID:   ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          # On localise le script quel que soit le prefixe emoji du dossier 03_Scripts.
+          SCRIPT="$(find . -name telecharger_clips.py -path '*Scripts*' | head -n 1)"
+          if [ -z "$SCRIPT" ]; then
+            echo "::error::telecharger_clips.py introuvable"; exit 1
+          fi
+          echo "Script : $SCRIPT"
+          python "$SCRIPT"
+
+      - name: Commit et push des resultats (clips LFS + log + etat)
+        run: |
+          git config user.name  "footflash-bot"
+          git config user.email "footflash-bot@users.noreply.github.com"
+          # On ajoute clips bruts, journal et fichier anti-doublon (tolerant emoji).
+          git add -A -- '*bruts*' '*archives*' 2>/dev/null || true
+          git add -A 2>/dev/null || true
+          if git diff --cached --quiet; then
+            echo "Aucun changement a committer."
+          else
+            git commit -m "Bloc2: clips FIFA telecharges + log [skip ci]"
+            git push
+          fi

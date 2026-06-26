@@ -1,0 +1,15 @@
+# === SECRETS — NE JAMAIS COMMITTER (contiennent des cles/token en clair) ===
+**/config.md
+*.env
+.env
+.env.*
+
+# === Etats internes du pipeline ===
+**/.processed.json
+**/.downloaded.json
+**/__pycache__/
+*.pyc
+
+# === Divers ===
+.DS_Store
+Thumbs.db
