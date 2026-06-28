@@ -23,7 +23,10 @@ Exemples :
 from __future__ import annotations
 
 import argparse
+import base64
+import hashlib
 import json
+import secrets
 import sys
 from urllib import parse, request, error
 
@@ -46,6 +49,18 @@ def _post_form(url: str, data: dict) -> dict:
     except error.HTTPError as exc:
         detail = exc.read().decode("utf-8", "replace")
         raise SystemExit(f"❌ Echec HTTP {exc.code} : {detail}")
+
+
+def _pkce_pair() -> tuple[str, str]:
+    """Génère (code_verifier, code_challenge) PKCE — méthode S256.
+
+    - verifier : base64url sans padding, 43-128 caractères (ici 86).
+    - challenge : base64url(SHA256(verifier)) sans padding.
+    """
+    verifier = base64.urlsafe_b64encode(secrets.token_bytes(64)).rstrip(b"=").decode("ascii")
+    digest = hashlib.sha256(verifier.encode("ascii")).digest()
+    challenge = base64.urlsafe_b64encode(digest).rstrip(b"=").decode("ascii")
+    return verifier, challenge
 
 
 def _demander_code(url_consentement: str) -> str:
@@ -91,12 +106,15 @@ def youtube(args) -> None:
 # TikTok
 # --------------------------------------------------------------------------- #
 def tiktok(args) -> None:
+    verifier, challenge = _pkce_pair()                # PKCE (S256)
     params = {
         "client_key": args.client_key,
         "scope": TT_SCOPE,
         "response_type": "code",
         "redirect_uri": args.redirect_uri,
         "state": "footflash",
+        "code_challenge": challenge,
+        "code_challenge_method": "S256",
     }
     code = _demander_code(f"{TT_AUTH}?{parse.urlencode(params)}")
     res = _post_form(TT_TOKEN, {
@@ -105,6 +123,7 @@ def tiktok(args) -> None:
         "code": code,
         "grant_type": "authorization_code",
         "redirect_uri": args.redirect_uri,
+        "code_verifier": verifier,                    # PKCE : preuve liée au challenge
     })
     # TikTok renvoie soit a plat, soit sous une clé "data" selon les versions.
     rt = res.get("refresh_token") or (res.get("data") or {}).get("refresh_token")
@@ -122,23 +141,4 @@ def main() -> int:
     sub = ap.add_subparsers(dest="plateforme", required=True)
 
     y = sub.add_parser("youtube", help="Refresh token YouTube Data API v3 (scope youtube.upload).")
-    y.add_argument("--client-id", required=True)
-    y.add_argument("--client-secret", required=True)
-    y.add_argument("--redirect-uri", default="http://localhost",
-                   help="Doit être enregistrée sur le client OAuth (défaut: http://localhost).")
-    y.set_defaults(func=youtube)
-
-    t = sub.add_parser("tiktok", help="Refresh token TikTok Content Posting API (scope video.publish).")
-    t.add_argument("--client-key", required=True)
-    t.add_argument("--client-secret", required=True)
-    t.add_argument("--redirect-uri", required=True,
-                   help="Doit correspondre EXACTEMENT à l'URI enregistrée sur l'app TikTok.")
-    t.set_defaults(func=tiktok)
-
-    args = ap.parse_args()
-    args.func(args)
-    return 0
-
-
-if __name__ == "__main__":
-    sys.exit(main())
+    y
