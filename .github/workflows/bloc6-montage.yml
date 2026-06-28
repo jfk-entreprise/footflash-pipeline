@@ -1,0 +1,79 @@
+# =============================================================================
+# FootFlash — Bloc 6 : Montage video final (FFmpeg)
+# =============================================================================
+# Chainage : Bloc1 -> Bloc2 -> Bloc3 -> Bloc4 -> Bloc5 -> [Bloc6].
+# Declencheur : fin (succes) du Bloc 5 (les voix off .mp3 sont alors pretes)
+#   + workflow_dispatch pour relance manuelle.
+#
+# Le job :
+#   1. Recupere le repo (Git LFS : clips .mp4 + voix .mp3 necessaires au montage).
+#   2. Installe ffmpeg + polices DejaVu (drawtext / sous-titres .ass).
+#   3. Lance 03_Scripts/generer_montage.py (anti-doublon .rendered.json integre)
+#      -> 05_Montage/rendus/{base}_video-{buts|analyse}.mp4 (9:16, mobile).
+#   4. Commit/push les videos (LFS) + les .ass (timelines) + le log + l'etat.
+# =============================================================================
+
+name: Bloc6 - Montage video
+
+on:
+  workflow_run:
+    workflows: ["Bloc5 - Voix off"]
+    types:
+      - completed
+  workflow_dispatch:
+
+concurrency:
+  group: footflash-bloc6
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  monter-videos:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    if: >
+      github.event_name == 'workflow_dispatch' ||
+      github.event.workflow_run.conclusion == 'success'
+
+    steps:
+      - name: Checkout du repo (avec Git LFS)
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+          fetch-depth: 0
+
+      - name: Configuration de Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Installation de ffmpeg + polices
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y ffmpeg fonts-dejavu-core
+          ffmpeg -version | head -n 1
+
+      - name: Montage des videos
+        run: |
+          SCRIPT="$(find . -name generer_montage.py -path '*Scripts*' | head -n 1)"
+          if [ -z "$SCRIPT" ]; then
+            echo "::error::generer_montage.py introuvable"; exit 1
+          fi
+          echo "Script : $SCRIPT"
+          python "$SCRIPT"
+
+      - name: Commit et push (MP4 LFS + timelines .ass + log + etat)
+        run: |
+          git config user.name  "footflash-bot"
+          git config user.email "footflash-bot@users.noreply.github.com"
+          git add -A 2>/dev/null || true
+          if git diff --cached --quiet; then
+            echo "Aucun changement a committer."
+          else
+            git commit -m "Bloc6: videos montees (buts + analyse) + log [skip ci]"
+            for i in 1 2 3; do
+              git pull --rebase --autostash origin "${GITHUB_REF_NAME:-main}" && git push && break || sleep 5
+            done
+          fi

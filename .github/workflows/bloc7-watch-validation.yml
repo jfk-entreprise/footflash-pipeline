@@ -1,0 +1,85 @@
+# =============================================================================
+# FootFlash — Bloc 7 (2/2) : Watcher de validation (cron */5)
+# =============================================================================
+# Lit les reponses Telegram (OUI/NON ou boutons) et agit :
+#   - OUI  / "✅ Publier"  -> declenche le Bloc 8 (gh workflow run).
+#   - NON  / "❌ Rejeter"  -> arret propre (log, aucune publication).
+#
+# Etat persistant : 05_Montage/validation_state.json (offset Telegram + statut
+# de chaque match), SUIVI par git -> il survit entre les runs du cron.
+#
+# Cadence : toutes les 5 minutes. Garde-fou : ne tourne que pendant la fenetre
+# du tournoi (11/06 -> 19/07 2026) pour ne pas poller indefiniment hors saison.
+# =============================================================================
+
+name: Bloc7 - Watcher validation
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: footflash-bloc7-watch
+  cancel-in-progress: false
+
+permissions:
+  contents: write       # committer l'offset / les statuts
+  actions: write        # gh workflow run (Bloc 8)
+
+jobs:
+  watcher:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Garde-fou — fenetre du tournoi (11/06 -> 19/07 2026)
+        id: fenetre
+        run: |
+          TODAY="$(date -u +%Y-%m-%d)"
+          if [[ "$TODAY" < "2026-06-11" || "$TODAY" > "2026-07-19" ]]; then
+            echo "Hors fenetre tournoi ($TODAY) — arret propre."
+            echo "actif=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "actif=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Checkout du repo
+        if: steps.fenetre.outputs.actif == 'true'
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configuration de Python
+        if: steps.fenetre.outputs.actif == 'true'
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Lecture des reponses + decisions
+        if: steps.fenetre.outputs.actif == 'true'
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID:   ${{ secrets.TELEGRAM_CHAT_ID }}
+          GH_TOKEN:           ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          SCRIPT="$(find . -name watch_validation.py -path '*Scripts*' | head -n 1)"
+          if [ -z "$SCRIPT" ]; then
+            echo "::error::watch_validation.py introuvable"; exit 1
+          fi
+          python "$SCRIPT"
+
+      - name: Commit et push (offset + statuts + log)
+        if: steps.fenetre.outputs.actif == 'true'
+        run: |
+          git config user.name  "footflash-bot"
+          git config user.email "footflash-bot@users.noreply.github.com"
+          git add -A 2>/dev/null || true
+          if git diff --cached --quiet; then
+            echo "Aucun changement (pas de nouvelle reponse)."
+          else
+            git commit -m "Bloc7: maj etat de validation (watcher) [skip ci]"
+            for i in 1 2 3; do
+              git pull --rebase --autostash origin "${GITHUB_REF_NAME:-main}" && git push && break || sleep 5
+            done
+          fi

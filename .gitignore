@@ -5,8 +5,10 @@
 .env.*
 
 # === Etats internes du pipeline ===
-**/.processed.json
-**/.downloaded.json
+# NB : les fichiers d'etat anti-doublon (.processed/.downloaded/.analyzed/
+# .scripted/.voiced/.rendered/validation_state) sont VOLONTAIREMENT SUIVIS par
+# git afin de PERSISTER entre les runs GitHub Actions (runners ephemeres).
+# Ne pas les re-ignorer, sinon le pipeline re-traiterait tout a chaque run.
 **/__pycache__/
 *.pyc
 

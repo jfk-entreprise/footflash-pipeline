@@ -83,5 +83,7 @@ jobs:
             echo "Aucun changement a committer."
           else
             git commit -m "Bloc2: clips FIFA telecharges + log [skip ci]"
-            git push
+            for i in 1 2 3; do
+              git pull --rebase --autostash origin "${GITHUB_REF_NAME:-main}" && git push && break || sleep 5
+            done
           fi

@@ -1,0 +1,92 @@
+# =============================================================================
+# FootFlash — Bloc 8 : Publication TikTok + YouTube Shorts
+# =============================================================================
+# Chainage : ... -> Bloc7 (validation) -> [Bloc8].
+# Declencheur : workflow_dispatch (input `base`), appele par le watcher du Bloc 7
+#   (`gh workflow run bloc8-publication.yml -f base=<base>`) apres un "OUI".
+#
+# Le job :
+#   1. Recupere le repo AVEC Git LFS (les vrais octets des MP4 sont requis pour l'upload).
+#   2. Installe requests.
+#   3. Lance 03_Scripts/publier.py :
+#        - publie les 2 videos sur TikTok + YouTube (prive/unlisted) si les
+#          refresh tokens OAuth sont presents, sinon mode SIMULATION ;
+#        - notifie Telegram, passe le match a "published", deplace les MP4
+#          vers 06_Archives/publie/.
+#   4. Commit/push (etat + archivage + log) avec push resilient.
+#
+# Secrets : voir env ci-dessous. Sans YOUTUBE_* / TIKTOK_REFRESH_TOKEN -> simulation.
+# =============================================================================
+
+name: Bloc8 - Publication
+
+on:
+  workflow_dispatch:
+    inputs:
+      base:
+        description: "Base du match a publier (AAAA-MM-JJ_eq1-eq2). Vide = tous les 'validated'."
+        required: false
+        default: ""
+
+concurrency:
+  group: footflash-bloc8
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  publier:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    steps:
+      - name: Checkout du repo (avec Git LFS)
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+          fetch-depth: 0
+
+      - name: Configuration de Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Installation des dependances
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install requests
+
+      - name: Publication
+        env:
+          BASE:                        ${{ github.event.inputs.base }}
+          TELEGRAM_BOT_TOKEN:          ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID:            ${{ secrets.TELEGRAM_CHAT_ID }}
+          # YouTube (OAuth requis pour l'upload ; sinon SIMULATION)
+          YOUTUBE_CLIENT_ID:           ${{ secrets.YOUTUBE_CLIENT_ID }}
+          YOUTUBE_CLIENT_SECRET:       ${{ secrets.YOUTUBE_CLIENT_SECRET }}
+          YOUTUBE_REFRESH_TOKEN:       ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
+          # TikTok (OAuth requis pour l'upload ; sinon SIMULATION)
+          TIKTOK_SANDBOX_CLIENT_KEY:    ${{ secrets.TIKTOK_SANDBOX_CLIENT_KEY }}
+          TIKTOK_SANDBOX_CLIENT_SECRET: ${{ secrets.TIKTOK_SANDBOX_CLIENT_SECRET }}
+          TIKTOK_REFRESH_TOKEN:         ${{ secrets.TIKTOK_REFRESH_TOKEN }}
+        run: |
+          SCRIPT="$(find . -name publier.py -path '*Scripts*' | head -n 1)"
+          if [ -z "$SCRIPT" ]; then
+            echo "::error::publier.py introuvable"; exit 1
+          fi
+          python "$SCRIPT"
+
+      - name: Commit et push (etat + archivage + log)
+        run: |
+          git config user.name  "footflash-bot"
+          git config user.email "footflash-bot@users.noreply.github.com"
+          git add -A 2>/dev/null || true
+          if git diff --cached --quiet; then
+            echo "Aucun changement a committer."
+          else
+            git commit -m "Bloc8: publication + archivage [skip ci]"
+            for i in 1 2 3; do
+              git pull --rebase --autostash origin "${GITHUB_REF_NAME:-main}" && git push && break || sleep 5
+            done
+          fi

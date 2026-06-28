@@ -1,0 +1,107 @@
+# =============================================================================
+# FootFlash — Bloc 1 : Detection des matchs termines (Coupe du Monde 2026)
+# =============================================================================
+# Le job :
+#   1. Garde-fou : ne tourne que pendant la fenetre du tournoi (11/06 -> 19/07 2026).
+#   2. Recupere le repo.
+#   3. Lance 03_Scripts/surveillance_matchs.py (API-Football, anti-doublon integre).
+#      -> ecrit un JSON par nouveau match dans 01_Donnees/matchs/ + notifie Telegram.
+#   4. Commit/push les JSON + le log (GITHUB_TOKEN).
+#   5. S'il y a au moins un NOUVEAU match : declenche explicitement le Bloc 2
+#      via `gh workflow run` (un push fait par GITHUB_TOKEN ne declenche pas
+#      d'autre workflow -> anti-boucle GitHub).
+#
+# SECURITE : aucune cle n'est lue depuis config.md. Les secrets viennent des
+#            GitHub Secrets du repo (le script lit l'environnement en priorite).
+# =============================================================================
+
+name: Bloc1 - Detection matchs CdM 2026
+
+on:
+  schedule:
+    - cron: "*/30 13-23 * * *"   # toutes les 30 min, 13h -> 23h UTC
+  workflow_dispatch:             # declenchement manuel possible
+
+# Empeche deux executions concurrentes de se marcher dessus (push + commit).
+concurrency:
+  group: footflash-bloc1
+  cancel-in-progress: false
+
+permissions:
+  contents: write                # committer les JSON + le log
+  actions: write                 # declencher le Bloc 2 via gh workflow run
+
+jobs:
+  detecter-matchs:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Garde-fou — fenetre du tournoi (11/06 -> 19/07 2026)
+        id: fenetre
+        run: |
+          TODAY="$(date -u +%Y-%m-%d)"
+          START="2026-06-11"
+          END="2026-07-19"
+          if [[ "$TODAY" < "$START" || "$TODAY" > "$END" ]]; then
+            echo "Hors fenetre tournoi ($TODAY) — arret propre."
+            echo "actif=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "Dans la fenetre tournoi ($TODAY)."
+            echo "actif=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Checkout du repo
+        if: steps.fenetre.outputs.actif == 'true'
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0          # historique complet (push fiable)
+
+      - name: Configuration de Python
+        if: steps.fenetre.outputs.actif == 'true'
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Detection des matchs termines
+        if: steps.fenetre.outputs.actif == 'true'
+        env:
+          API_FOOTBALL_KEY:   ${{ secrets.API_FOOTBALL_KEY }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID:   ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          # On localise le script quel que soit le prefixe emoji du dossier 03_Scripts.
+          SCRIPT="$(find . -name surveillance_matchs.py -path '*Scripts*' | head -n 1)"
+          if [ -z "$SCRIPT" ]; then
+            echo "::error::surveillance_matchs.py introuvable"; exit 1
+          fi
+          echo "Script : $SCRIPT"
+          python "$SCRIPT"
+
+      - name: Detection de nouveaux matchs + commit/push
+        if: steps.fenetre.outputs.actif == 'true'
+        id: push
+        run: |
+          git config user.name  "footflash-bot"
+          git config user.email "footflash-bot@users.noreply.github.com"
+          # Y a-t-il de nouveaux/modifies JSON de match ? (tolerant au prefixe emoji)
+          NOUVEAU="false"
+          if git status --porcelain | grep -E '_data\.json' | grep -qi 'matchs'; then
+            NOUVEAU="true"
+          fi
+          echo "nouveau=$NOUVEAU" >> "$GITHUB_OUTPUT"
+          git add -A 2>/dev/null || true
+          if git diff --cached --quiet; then
+            echo "Aucun changement a committer."
+          else
+            git commit -m "Bloc1: detection matchs CdM 2026 + log [skip ci]"
+            git push
+          fi
+
+      - name: Declenchement du Bloc 2 (si nouveau match)
+        if: steps.fenetre.outputs.actif == 'true' && steps.push.outputs.nouveau == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "Nouveau(x) match(s) detecte(s) — declenchement du Bloc 2."
+          gh workflow run "bloc2-telechargement-clips.yml" --ref "${{ github.ref_name }}"

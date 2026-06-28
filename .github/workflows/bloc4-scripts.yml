@@ -1,0 +1,77 @@
+# =============================================================================
+# FootFlash — Bloc 4 : Generation des scripts de voix off (buts + analyse)
+# =============================================================================
+# Chainage : Bloc1 -> Bloc2 -> Bloc3 -> [Bloc4].
+# Declencheur : fin (succes) du Bloc 3 (les _moments.json sont alors disponibles)
+#   + workflow_dispatch pour relance manuelle.
+#
+# Le job :
+#   1. Recupere le repo.
+#   2. Lance les 2 generateurs (stdlib only, anti-doublon .scripted.json) :
+#        - 03_Scripts/buts/generer_script_buts.py      -> *_script-buts.txt
+#        - 03_Scripts/analyse/generer_script_analyse.py -> *_script-analyse.txt
+#   3. Commit/push les scripts + le log.
+#
+# SECURITE : aucune cle requise (generation 100% locale a partir des JSON).
+# =============================================================================
+
+name: Bloc4 - Scripts voix off
+
+on:
+  workflow_run:
+    workflows: ["Bloc3 - Analyse moments cles"]
+    types:
+      - completed
+  workflow_dispatch:
+
+concurrency:
+  group: footflash-bloc4
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  generer-scripts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    if: >
+      github.event_name == 'workflow_dispatch' ||
+      github.event.workflow_run.conclusion == 'success'
+
+    steps:
+      - name: Checkout du repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configuration de Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Generation des scripts (buts + analyse)
+        run: |
+          BUTS="$(find . -name generer_script_buts.py -path '*Scripts*' | head -n 1)"
+          ANALYSE="$(find . -name generer_script_analyse.py -path '*Scripts*' | head -n 1)"
+          if [ -z "$BUTS" ] || [ -z "$ANALYSE" ]; then
+            echo "::error::generateur(s) Bloc4 introuvable(s)"; exit 1
+          fi
+          echo "Buts    : $BUTS"
+          echo "Analyse : $ANALYSE"
+          python "$BUTS"
+          python "$ANALYSE"
+
+      - name: Commit et push des scripts (.txt + log)
+        run: |
+          git config user.name  "footflash-bot"
+          git config user.email "footflash-bot@users.noreply.github.com"
+          git add -A 2>/dev/null || true
+          if git diff --cached --quiet; then
+            echo "Aucun changement a committer."
+          else
+            git commit -m "Bloc4: scripts voix off (buts + analyse) + log [skip ci]"
+            for i in 1 2 3; do
+              git pull --rebase --autostash origin "${GITHUB_REF_NAME:-main}" && git push && break || sleep 5
+            done
+          fi

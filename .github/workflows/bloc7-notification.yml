@@ -1,0 +1,76 @@
+# =============================================================================
+# FootFlash — Bloc 7 (1/2) : Notification de validation
+# =============================================================================
+# Chainage : Bloc1 -> ... -> Bloc6 -> [Bloc7].
+# Declencheur : fin (succes) du Bloc 6 (les videos finales sont alors pretes)
+#   + workflow_dispatch.
+#
+# Le job :
+#   1. Recupere le repo.
+#   2. Lance 03_Scripts/notifier_validation.py -> envoie la notif Telegram
+#      (match + score + liens GitHub + boutons Publier/Rejeter) et inscrit le
+#      match comme "pending" dans 05_Montage/validation_state.json.
+#   3. Commit/push l'etat de validation + le log.
+#
+# La REPONSE (OUI/NON) est traitee par le watcher cron : bloc7-watch-validation.yml.
+# =============================================================================
+
+name: Bloc7 - Notification validation
+
+on:
+  workflow_run:
+    workflows: ["Bloc6 - Montage video"]
+    types:
+      - completed
+  workflow_dispatch:
+
+concurrency:
+  group: footflash-bloc7-notif
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  notifier:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    if: >
+      github.event_name == 'workflow_dispatch' ||
+      github.event.workflow_run.conclusion == 'success'
+
+    steps:
+      - name: Checkout du repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configuration de Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Envoi de la notification de validation
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID:   ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          SCRIPT="$(find . -name notifier_validation.py -path '*Scripts*' | head -n 1)"
+          if [ -z "$SCRIPT" ]; then
+            echo "::error::notifier_validation.py introuvable"; exit 1
+          fi
+          python "$SCRIPT"
+
+      - name: Commit et push (etat de validation + log)
+        run: |
+          git config user.name  "footflash-bot"
+          git config user.email "footflash-bot@users.noreply.github.com"
+          git add -A 2>/dev/null || true
+          if git diff --cached --quiet; then
+            echo "Aucun changement a committer."
+          else
+            git commit -m "Bloc7: notification de validation envoyee [skip ci]"
+            for i in 1 2 3; do
+              git pull --rebase --autostash origin "${GITHUB_REF_NAME:-main}" && git push && break || sleep 5
+            done
+          fi

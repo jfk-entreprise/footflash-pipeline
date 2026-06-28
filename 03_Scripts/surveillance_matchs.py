@@ -17,12 +17,14 @@ Role :
 Mode d'execution : one-shot (a lancer via une tache planifiee/cron).
 Anti-doublon     : fichier d'etat .processed.json (un match notifie une seule fois).
 
-Aucune cle n'est codee en dur : tout est lu depuis 00_Context/config.md.
+Aucune cle n'est codee en dur : secrets lus depuis l'environnement (GitHub
+Secrets) en priorite, repli sur 00_Context/config.md en local.
 """
 
 from __future__ import annotations
 
 import json
+import os
 import subprocess
 import sys
 import time
@@ -66,11 +68,11 @@ RETRY_BACKOFF = 5                          # secondes (x tentative)
 # --------------------------------------------------------------------------- #
 # Configuration
 # --------------------------------------------------------------------------- #
-def load_config(path: Path) -> dict:
+def _parse_config_md(path: Path) -> dict:
     """Lit les paires CLE=VALEUR depuis config.md (ignore titres et commentaires)."""
     cfg: dict[str, str] = {}
     if not path.exists():
-        raise FileNotFoundError(f"config.md introuvable : {path}")
+        return cfg
     for raw in path.read_text(encoding="utf-8").splitlines():
         line = raw.strip()
         if not line or line.startswith("#") or "=" not in line:
@@ -80,6 +82,34 @@ def load_config(path: Path) -> dict:
         value = value.strip().strip("<>").strip()
         if key and value:
             cfg[key] = value
+    return cfg
+
+
+def load_config(path: Path) -> dict:
+    """Construit la config en priorisant l'environnement (GitHub Secrets), repli config.md.
+
+    - En CI (GitHub Actions) : les secrets viennent de l'environnement, config.md
+      est absent/gitignore.
+    - En local : repli sur 00_Context/config.md.
+    Le secret GitHub `API_FOOTBALL_KEY` est mappe sur la cle interne `API_KEY`
+    (config.md utilise historiquement `API_KEY`).
+    """
+    cfg = _parse_config_md(path)        # base locale (peut etre vide en CI)
+
+    # L'environnement a la priorite sur config.md.
+    env_map = {
+        "API_KEY": ("API_FOOTBALL_KEY", "API_KEY"),   # secret CI, puis nom historique
+        "BASE_URL": ("BASE_URL",),
+        "TELEGRAM_BOT_TOKEN": ("TELEGRAM_BOT_TOKEN",),
+        "TELEGRAM_CHAT_ID": ("TELEGRAM_CHAT_ID",),
+        "YOUTUBE_API_KEY": ("YOUTUBE_API_KEY",),
+    }
+    for internal_key, env_names in env_map.items():
+        for env_name in env_names:
+            val = os.environ.get(env_name)
+            if val:
+                cfg[internal_key] = val.strip()
+                break
     return cfg
 
 
@@ -252,6 +282,11 @@ def git_push_changes(nb_matchs: int) -> None:
     NB : config.md et .processed.json sont exclus par .gitignore (pas de fuite).
     """
     if nb_matchs <= 0:
+        return
+    # Sous GitHub Actions : c'est le workflow qui commit/push ET declenche le Bloc 2
+    # (un push fait par GITHUB_TOKEN ne declenche pas d'autre workflow). On n'auto-pousse pas.
+    if os.environ.get("GITHUB_ACTIONS") == "true":
+        log("ℹ️ GitHub Actions detecte — push gere par le workflow (auto-push ignore).")
         return
     if not (PROJECT_ROOT / ".git").exists():
         log("ℹ️ Pas de depot git (.git absent) — push ignore (Bloc 2 non declenche).")
