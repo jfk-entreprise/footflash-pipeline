@@ -35,3 +35,5 @@
 - `2026-06-29 20:29:28` — [Bloc1] 📨 Notification Telegram envoyée pour Brazil-Japan
 - `2026-06-29 20:29:28` — [Bloc1] ✅ Terminé : 4 match(s) traité(s).
 - `2026-06-29 20:29:28` — [Bloc1] ℹ️ GitHub Actions detecte — push gere par le workflow (auto-push ignore).
+- `2026-06-29 20:29:47` — [Bloc1] 🔎 Surveillance WC — fenetre UTC 2026-06-28 -> 2026-06-29
+- `2026-06-29 20:29:48` — [Bloc1] ℹ️ 5 match(s) dans la fenetre, aucun nouveau terminé.
