@@ -357,7 +357,9 @@ def download_clip(video_url: str, base_name: str) -> Path | None:
     cmd = [
         "yt-dlp",
         *_cookie_args(),
-        "-f", "bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best",
+        "--extractor-args", "youtube:player_client=default,android",
+        "-f", "bv*+ba/b",                 # meilleur video+audio, sinon meilleur fichier unique
+        "-S", "ext:mp4:m4a,res,br",        # PREFERE mp4/m4a (sans l'exiger), puis resolution/bitrate
         "--merge-output-format", "mp4",
         "--no-playlist",
         "--no-warnings",
