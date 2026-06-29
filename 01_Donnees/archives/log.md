@@ -224,3 +224,9 @@
 - `2026-06-29 23:49:02` — [Bloc7] ✅ Validé par l'utilisateur : Algeria 3–3 Austria — publication autorisée.
 - `2026-06-29 23:49:04` — [Bloc7] 🚀 Bloc 8 déclenché pour 2026-06-28_algeria-austria.
 - `2026-06-29 23:49:04` — [Bloc7] ✅ Watcher : 1 décision(s) traitée(s).
+- `2026-06-29 23:53:42` — [Bloc1] 🔎 Surveillance WC — fenetre UTC 2026-06-28 -> 2026-06-29
+- `2026-06-29 23:53:43` — [Bloc1] ℹ️ Pas d'events détaillés pour 537415 (plan gratuit) — repli score seul.
+- `2026-06-29 23:53:43` — [Bloc1] 💾 Donnees sauvegardees : 2026-06-29_germany-paraguay_data.json (Germany 5–6 Paraguay, 0 but(s) détaillé(s))
+- `2026-06-29 23:53:43` — [Bloc1] 📨 Notification Telegram envoyée pour Germany-Paraguay
+- `2026-06-29 23:53:43` — [Bloc1] ✅ Terminé : 1 match(s) traité(s).
+- `2026-06-29 23:53:43` — [Bloc1] ℹ️ GitHub Actions detecte — push gere par le workflow (auto-push ignore).
