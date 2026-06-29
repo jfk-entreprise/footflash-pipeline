@@ -19,8 +19,13 @@ name: Bloc1 - Detection matchs CdM 2026
 
 on:
   schedule:
-    - cron: "*/30 13-23 * * *"   # toutes les 30 min, 13h -> 23h UTC
+    - cron: "*/20 * * * *"       # toutes les 20 min, 24h/24 (matchs nocturnes Amerique du Nord)
   workflow_dispatch:             # declenchement manuel possible
+    inputs:
+      verify:
+        description: "Self-test couverture API-Football (next=10) au lieu de la detection"
+        type: boolean
+        default: false
 
 # Empeche deux executions concurrentes de se marcher dessus (push + commit).
 concurrency:
@@ -43,7 +48,11 @@ jobs:
           TODAY="$(date -u +%Y-%m-%d)"
           START="2026-06-11"
           END="2026-07-19"
-          if [[ "$TODAY" < "$START" || "$TODAY" > "$END" ]]; then
+          # Le self-test (--verify) doit pouvoir tourner hors fenetre tournoi.
+          if [[ "${{ github.event.inputs.verify }}" == "true" ]]; then
+            echo "Mode self-test (verify) — fenetre ignoree."
+            echo "actif=true" >> "$GITHUB_OUTPUT"
+          elif [[ "$TODAY" < "$START" || "$TODAY" > "$END" ]]; then
             echo "Hors fenetre tournoi ($TODAY) — arret propre."
             echo "actif=false" >> "$GITHUB_OUTPUT"
           else
@@ -76,10 +85,14 @@ jobs:
             echo "::error::surveillance_matchs.py introuvable"; exit 1
           fi
           echo "Script : $SCRIPT"
-          python "$SCRIPT"
+          if [[ "${{ github.event.inputs.verify }}" == "true" ]]; then
+            python "$SCRIPT" --verify
+          else
+            python "$SCRIPT"
+          fi
 
       - name: Detection de nouveaux matchs + commit/push
-        if: steps.fenetre.outputs.actif == 'true'
+        if: steps.fenetre.outputs.actif == 'true' && github.event.inputs.verify != 'true'
         id: push
         run: |
           git config user.name  "footflash-bot"
@@ -90,18 +103,4 @@ jobs:
             NOUVEAU="true"
           fi
           echo "nouveau=$NOUVEAU" >> "$GITHUB_OUTPUT"
-          git add -A 2>/dev/null || true
-          if git diff --cached --quiet; then
-            echo "Aucun changement a committer."
-          else
-            git commit -m "Bloc1: detection matchs CdM 2026 + log [skip ci]"
-            git push
-          fi
-
-      - name: Declenchement du Bloc 2 (si nouveau match)
-        if: steps.fenetre.outputs.actif == 'true' && steps.push.outputs.nouveau == 'true'
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          echo "Nouveau(x) match(s) detecte(s) — declenchement du Bloc 2."
-          gh workflow run "bloc2-telechargement-clips.yml" --ref "${{ github.ref_name }}"
+          git add
