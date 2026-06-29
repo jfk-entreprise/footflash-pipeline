@@ -1,0 +1,53 @@
+{
+  "fixture_id": 537417,
+  "source_api": "football-data.org/v4",
+  "recupere_le": "2026-06-29T20:29:26.552464+00:00",
+  "competition": {
+    "id": 2000,
+    "name": "FIFA World Cup",
+    "code": "WC",
+    "type": "CUP",
+    "emblem": "https://crests.football-data.org/wm26.png"
+  },
+  "match": {
+    "id": 537417,
+    "date": "2026-06-28T19:00:00Z",
+    "status": "FINISHED",
+    "stage": "LAST_32",
+    "group": null,
+    "venue": {
+      "name": null
+    }
+  },
+  "equipes": {
+    "home": {
+      "id": 774,
+      "name": "South Africa"
+    },
+    "away": {
+      "id": 828,
+      "name": "Canada"
+    }
+  },
+  "score": {
+    "buts": {
+      "home": 0,
+      "away": 1
+    },
+    "detail": {
+      "winner": "AWAY_TEAM",
+      "duration": "REGULAR",
+      "fullTime": {
+        "home": 0,
+        "away": 1
+      },
+      "halfTime": {
+        "home": 0,
+        "away": 0
+      }
+    }
+  },
+  "events": [],
+  "statistics": [],
+  "lineups": []
+}
