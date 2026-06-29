@@ -150,10 +150,48 @@ def parse_match(json_path: Path) -> dict:
 # --------------------------------------------------------------------------- #
 # Verification stricte : la video appartient-elle a la chaine officielle FIFA ?
 # --------------------------------------------------------------------------- #
+def _video_id(url_or_id: str) -> str | None:
+    """Extrait l'identifiant video depuis une URL watch?v= / youtu.be, sinon renvoie tel quel."""
+    if not url_or_id:
+        return None
+    if "watch?v=" in url_or_id:
+        return parse.parse_qs(parse.urlparse(url_or_id).query).get("v", [None])[0]
+    if "youtu.be/" in url_or_id:
+        return url_or_id.rsplit("/", 1)[-1].split("?")[0]
+    return url_or_id
+
+
+def verify_via_youtube_api(video_url: str, api_key: str) -> dict | None:
+    """
+    Garde-fou central (regles-fifa.md) via l'API YouTube Data (autoritative et
+    fiable sur les runners CI). Accepte UNIQUEMENT si la video appartient a la
+    chaine OFFICIELLE FIFA : snippet.channelId == OFFICIAL_FIFA_CHANNEL_ID.
+    """
+    vid = _video_id(video_url)
+    if not vid or not api_key:
+        return None
+    url = "https://www.googleapis.com/youtube/v3/videos?" + parse.urlencode(
+        {"key": api_key, "part": "snippet", "id": vid})
+    try:
+        with request.urlopen(request.Request(url), timeout=REQUEST_TIMEOUT) as resp:
+            items = json.loads(resp.read().decode("utf-8")).get("items", [])
+    except Exception as exc:
+        log(f"ℹ️ Verif API YouTube echouee : {exc}")
+        return None
+    if not items:
+        return None
+    channel_id = items[0].get("snippet", {}).get("channelId", "")
+    if channel_id == OFFICIAL_FIFA_CHANNEL_ID:
+        return {"channel_id": channel_id, "title": items[0]["snippet"].get("title", "")}
+    return None
+
+
 def verify_official_fifa(video_url: str) -> dict | None:
     """
-    Renvoie les metadonnees yt-dlp si la video provient de la chaine OFFICIELLE FIFA,
-    sinon None. C'est le garde-fou central de regles-fifa.md.
+    REPLI hors-CI (si pas de cle API) : verifie via yt-dlp que la video provient
+    de la chaine OFFICIELLE FIFA. Standard identique (channelId == FIFA), mais
+    fragile sur les runners (YouTube bloque les IP datacenter) — d'ou la priorite
+    donnee a verify_via_youtube_api().
     """
     try:
         out = subprocess.run(
@@ -161,15 +199,18 @@ def verify_official_fifa(video_url: str) -> dict | None:
             capture_output=True, text=True, timeout=120,
         )
         if out.returncode != 0:
+            log("ℹ️ Verif yt-dlp indisponible (extraction echouee) — non concluant.")
             return None
         meta = json.loads(out.stdout)
     except Exception:
         return None
-    channel_id = meta.get("channel_id") or meta.get("uploader_id") or ""
+    channel_id = meta.get("channel_id") or ""
+    handle = (meta.get("uploader_id") or "").lstrip("@").lower()
     uploader_url = (meta.get("channel_url") or meta.get("uploader_url") or "").lower()
     is_official = (
         channel_id == OFFICIAL_FIFA_CHANNEL_ID
         or OFFICIAL_FIFA_CHANNEL_ID.lower() in uploader_url
+        or handle == OFFICIAL_FIFA_HANDLE.lower()
         or uploader_url.rstrip("/").endswith(f"@{OFFICIAL_FIFA_HANDLE}".lower())
     )
     return meta if is_official else None
@@ -281,11 +322,16 @@ def find_official_clip(match: dict) -> str | None:
             candidate = None
         if not candidate:
             continue
-        meta = verify_official_fifa(candidate)
+        # Certification PRIORITAIRE via l'API YouTube (fiable en CI) ; repli yt-dlp
+        # UNIQUEMENT si aucune cle API n'est disponible (usage local).
+        api_key = os.environ.get("YOUTUBE_API_KEY", "")
+        meta = verify_via_youtube_api(candidate, api_key)
+        if meta is None and not api_key:
+            meta = verify_official_fifa(candidate)
         if meta:
-            log(f"✅ Source CERTIFIEE officielle FIFA via methode {label}.")
+            log(f"✅ Source CERTIFIEE officielle FIFA (channelId) via methode {label}.")
             return candidate
-        log(f"⛔ Candidat {label} REJETE : origine FIFA non certifiee.")
+        log(f"⛔ Candidat {label} REJETE : channelId ≠ FIFA ou non vérifiable.")
     return None
 
 
