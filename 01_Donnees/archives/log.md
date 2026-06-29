@@ -131,3 +131,5 @@
 - `2026-06-29 22:29:49` — [Bloc2] ❌ yt-dlp a echoue (code 1) : ERROR: [youtube] -2LISS18if0: Requested format is not available. Use --list-formats for a list of available formats
 - `2026-06-29 22:29:49` — [Bloc2] ❌ Echec telechargement pour Brazil – Japan.
 - `2026-06-29 22:29:50` — [Bloc2] ✅ Bloc 2 termine.
+- `2026-06-29 22:50:19` — [Bloc1] 🔎 Surveillance WC — fenetre UTC 2026-06-28 -> 2026-06-29
+- `2026-06-29 22:50:19` — [Bloc1] ℹ️ 5 match(s) dans la fenetre, aucun nouveau terminé.
