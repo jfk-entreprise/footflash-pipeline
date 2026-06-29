@@ -23,12 +23,13 @@ Secrets) en priorite, repli sur 00_Context/config.md en local.
 
 from __future__ import annotations
 
+import argparse
 import json
 import os
 import subprocess
 import sys
 import time
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from urllib import error, parse, request
 
@@ -52,6 +53,7 @@ ARCHIVES_DIR = _find_dir(DONNEES_DIR, "archives")
 
 CONFIG_FILE = CONTEXT_DIR / "config.md"
 PROCESSED_FILE = MATCHS_DIR / ".processed.json"
+HEALTH_FILE = MATCHS_DIR / ".health.json"   # suivi des jours sans match (tracke par git)
 LOG_FILE = ARCHIVES_DIR / "log.md"
 
 # --------------------------------------------------------------------------- #
@@ -59,6 +61,9 @@ LOG_FILE = ARCHIVES_DIR / "log.md"
 # --------------------------------------------------------------------------- #
 LEAGUE_ID = 1
 SEASON = 2026
+TOURNOI_START = "2026-06-11"                # fenetre officielle CdM 2026
+TOURNOI_END = "2026-07-19"
+JOURS_VIDES_ALERTE = 3                      # alerte si N jours consecutifs sans match
 FINISHED_STATUSES = {"FT", "AET", "PEN"}   # match termine (temps reglementaire / prolong. / t.a.b.)
 REQUEST_TIMEOUT = 30                       # secondes
 MAX_RETRIES = 3
@@ -161,6 +166,11 @@ class ApiFootball:
 
     def fixtures_of_day(self, day: str) -> list[dict]:
         data = self._get("fixtures", {"league": LEAGUE_ID, "season": SEASON, "date": day})
+        return data.get("response", [])
+
+    def fixtures_upcoming(self, n: int = 10) -> list[dict]:
+        """Les n prochains matchs de la ligue/saison (sert au self-test de couverture)."""
+        data = self._get("fixtures", {"league": LEAGUE_ID, "season": SEASON, "next": n})
         return data.get("response", [])
 
     def events(self, fixture_id: int) -> list[dict]:
@@ -318,30 +328,119 @@ def git_push_changes(nb_matchs: int) -> None:
 
 
 # --------------------------------------------------------------------------- #
+# Sante du pipeline (C2) : alerte si aucun match detecte pendant N jours
+# --------------------------------------------------------------------------- #
+def load_health() -> dict:
+    if HEALTH_FILE.exists():
+        try:
+            return json.loads(HEALTH_FILE.read_text(encoding="utf-8"))
+        except Exception:
+            pass
+    return {"jours_vides": [], "alerte_envoyee": False}
+
+
+def save_health(h: dict) -> None:
+    HEALTH_FILE.write_text(json.dumps(h, indent=2), encoding="utf-8")
+
+
+def maj_sante(jour: str, nb_fixtures: int, cfg: dict) -> None:
+    """Suit les jours du tournoi sans aucun match programme et alerte au seuil."""
+    if not (TOURNOI_START <= jour <= TOURNOI_END):
+        return                                          # hors tournoi : on ne compte pas
+    h = load_health()
+    vides = [d for d in h.get("jours_vides", []) if d != jour]
+    if nb_fixtures == 0:
+        vides.append(jour)
+        vides = sorted(set(vides))[-JOURS_VIDES_ALERTE:]
+        if len(vides) >= JOURS_VIDES_ALERTE and not h.get("alerte_envoyee"):
+            send_telegram(
+                cfg.get("TELEGRAM_BOT_TOKEN", ""), cfg.get("TELEGRAM_CHAT_ID", ""),
+                "🚑 <b>FootFlash — anomalie détection</b>\n"
+                f"Aucun match CdM 2026 détecté depuis {JOURS_VIDES_ALERTE} jours "
+                f"({', '.join(vides)}).\n"
+                "Vérifier la couverture API-Football (league=1 / season=2026) et le plan.",
+            )
+            log(f"🚑 Alerte santé envoyée : {JOURS_VIDES_ALERTE} jours sans match.")
+            h["alerte_envoyee"] = True
+    else:
+        vides = []
+        h["alerte_envoyee"] = False
+    h["jours_vides"] = vides
+    save_health(h)
+
+
+# --------------------------------------------------------------------------- #
+# Self-test de couverture API (C2) :  python surveillance_matchs.py --verify
+# --------------------------------------------------------------------------- #
+def verifier_couverture(api: "ApiFootball", cfg: dict) -> int:
+    log("🩺 Self-test couverture API-Football (league=1, season=2026, next=10)…")
+    try:
+        prochains = api.fixtures_upcoming(10)
+    except RuntimeError as exc:
+        log(f"❌ Self-test KO : {exc}")
+        send_telegram(cfg.get("TELEGRAM_BOT_TOKEN", ""), cfg.get("TELEGRAM_CHAT_ID", ""),
+                      f"❌ <b>FootFlash — self-test API KO</b>\n{exc}")
+        return 1
+    n = len(prochains)
+    apercu = ", ".join(
+        f"{f['teams']['home']['name']}-{f['teams']['away']['name']} ({f['fixture']['date'][:10]})"
+        for f in prochains[:3]
+    )
+    log(f"🩺 {n} match(s) à venir renvoyé(s) par l'API. {apercu}")
+    send_telegram(
+        cfg.get("TELEGRAM_BOT_TOKEN", ""), cfg.get("TELEGRAM_CHAT_ID", ""),
+        f"🩺 <b>FootFlash — self-test API</b>\n{n} match(s) à venir. {apercu or '—'}\n"
+        + ("✅ Couverture OK." if n > 0 else "⚠️ 0 match : vérifier league/season/plan."),
+    )
+    return 0 if n > 0 else 2
+
+
+# --------------------------------------------------------------------------- #
 # Point d'entree
 # --------------------------------------------------------------------------- #
 def main() -> int:
+    ap = argparse.ArgumentParser(description="Bloc 1 — détection des matchs CdM 2026.")
+    ap.add_argument("--verify", action="store_true",
+                    help="Self-test de couverture API (next=10) puis sortie.")
+    args = ap.parse_args()
+
     cfg = load_config(CONFIG_FILE)
     api_key = cfg.get("API_KEY")
     base_url = cfg.get("BASE_URL", "https://v3.football.api-sports.io")
     if not api_key:
-        log("❌ API_KEY absente de config.md — arret.")
+        log("❌ API_KEY absente (env GitHub Secrets ou config.md) — arret.")
         return 1
 
     api = ApiFootball(api_key, base_url)
     MATCHS_DIR.mkdir(parents=True, exist_ok=True)
 
-    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-    log(f"🔎 Surveillance des matchs CdM 2026 du {today}")
+    if args.verify:
+        return verifier_couverture(api, cfg)
 
-    try:
-        fixtures = api.fixtures_of_day(today)
-    except RuntimeError as exc:
-        log(f"❌ {exc}")
-        return 1
+    # C1 : on interroge HIER + AUJOURD'HUI (UTC) pour capter les matchs nocturnes
+    # nord-americains terminés après 23h UTC de leur jour de coup d'envoi.
+    now = datetime.now(timezone.utc)
+    jours = [
+        (now - timedelta(days=1)).strftime("%Y-%m-%d"),
+        now.strftime("%Y-%m-%d"),
+    ]
+    log(f"🔎 Surveillance des matchs CdM 2026 — jours UTC {jours}")
+
+    fixtures_par_id: dict[int, dict] = {}
+    for jour in jours:
+        try:
+            for f in api.fixtures_of_day(jour):
+                fixtures_par_id[f["fixture"]["id"]] = f      # dedup par fixture_id
+        except RuntimeError as exc:
+            log(f"❌ {exc}")
+            return 1
+    fixtures = list(fixtures_par_id.values())
+
+    # Suivi de santé sur le jour courant (alerte si 0 match en plein tournoi)
+    maj_sante(now.strftime("%Y-%m-%d"), len(fixtures), cfg)
 
     if not fixtures:
-        log("ℹ️ Aucun match CdM 2026 programmé aujourd'hui.")
+        log("ℹ️ Aucun match CdM 2026 programmé (hier/aujourd'hui).")
         return 0
 
     processed = load_processed()
@@ -352,7 +451,7 @@ def main() -> int:
     ]
 
     if not finished:
-        log(f"ℹ️ {len(fixtures)} match(s) aujourd'hui, aucun nouveau match terminé.")
+        log(f"ℹ️ {len(fixtures)} match(s) sur la fenêtre, aucun nouveau terminé.")
         return 0
 
     for fixture in finished:
