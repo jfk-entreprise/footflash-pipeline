@@ -37,3 +37,29 @@
 - `2026-06-29 20:29:28` — [Bloc1] ℹ️ GitHub Actions detecte — push gere par le workflow (auto-push ignore).
 - `2026-06-29 20:29:47` — [Bloc1] 🔎 Surveillance WC — fenetre UTC 2026-06-28 -> 2026-06-29
 - `2026-06-29 20:29:48` — [Bloc1] ℹ️ 5 match(s) dans la fenetre, aucun nouveau terminé.
+- `2026-06-29 20:58:59` — [Bloc2] ▶️ Bloc 2 demarre — 4 match(s) a traiter.
+- `2026-06-29 20:58:59` — [Bloc2] 🔎 Recherche du highlight officiel FIFA : Algeria – Austria (2026-06-28_algeria-austria)
+- `2026-06-29 20:58:59` — [Bloc2] 🎯 (b) Candidat API @FIFA : « Highlights | Algeria 3-3 Austria | FIFA World Cup 2026™ »
+- `2026-06-29 20:59:00` — [Bloc2] ⛔ Candidat b/YouTube API REJETE : origine FIFA non certifiee.
+- `2026-06-29 20:59:01` — [Bloc2] 🎯 (c) Candidat yt-dlp @FIFA : « Highlights | Algeria 3-3 Austria | FIFA World Cup 2026™ »
+- `2026-06-29 20:59:02` — [Bloc2] ⛔ Candidat c/yt-dlp REJETE : origine FIFA non certifiee.
+- `2026-06-29 20:59:02` — [Bloc2] 🛑 Aucun clip OFFICIEL FIFA certifie pour Algeria – Austria — arret + validation manuelle requise.
+- `2026-06-29 20:59:03` — [Bloc2] 🔎 Recherche du highlight officiel FIFA : Jordan – Argentina (2026-06-28_jordan-argentina)
+- `2026-06-29 20:59:03` — [Bloc2] 🎯 (b) Candidat API @FIFA : « Highlights | Jordan 1-3 Argentina | FIFA World Cup 2026™ »
+- `2026-06-29 20:59:05` — [Bloc2] ⛔ Candidat b/YouTube API REJETE : origine FIFA non certifiee.
+- `2026-06-29 20:59:06` — [Bloc2] 🎯 (c) Candidat yt-dlp @FIFA : « Highlights | Jordan 1-3 Argentina | FIFA World Cup 2026™ »
+- `2026-06-29 20:59:07` — [Bloc2] ⛔ Candidat c/yt-dlp REJETE : origine FIFA non certifiee.
+- `2026-06-29 20:59:07` — [Bloc2] 🛑 Aucun clip OFFICIEL FIFA certifie pour Jordan – Argentina — arret + validation manuelle requise.
+- `2026-06-29 20:59:07` — [Bloc2] 🔎 Recherche du highlight officiel FIFA : South Africa – Canada (2026-06-28_south-africa-canada)
+- `2026-06-29 20:59:07` — [Bloc2] 🎯 (b) Candidat API @FIFA : « Highlights | South Africa 0-1 Canada | FIFA World Cup 2026™ »
+- `2026-06-29 20:59:09` — [Bloc2] ⛔ Candidat b/YouTube API REJETE : origine FIFA non certifiee.
+- `2026-06-29 20:59:10` — [Bloc2] 🎯 (c) Candidat yt-dlp @FIFA : « Highlights | South Africa 0-1 Canada | FIFA World Cup 2026™ »
+- `2026-06-29 20:59:11` — [Bloc2] ⛔ Candidat c/yt-dlp REJETE : origine FIFA non certifiee.
+- `2026-06-29 20:59:11` — [Bloc2] 🛑 Aucun clip OFFICIEL FIFA certifie pour South Africa – Canada — arret + validation manuelle requise.
+- `2026-06-29 20:59:11` — [Bloc2] 🔎 Recherche du highlight officiel FIFA : Brazil – Japan (2026-06-29_brazil-japan)
+- `2026-06-29 20:59:12` — [Bloc2] 🎯 (b) Candidat API @FIFA : « Brazil Train Before Japan | FIFA World Cup 2026™ »
+- `2026-06-29 20:59:13` — [Bloc2] ⛔ Candidat b/YouTube API REJETE : origine FIFA non certifiee.
+- `2026-06-29 20:59:14` — [Bloc2] 🎯 (c) Candidat yt-dlp @FIFA : « Match Preview: Brazil vs Japan | FIFA World Cup 2026™ »
+- `2026-06-29 20:59:15` — [Bloc2] ⛔ Candidat c/yt-dlp REJETE : origine FIFA non certifiee.
+- `2026-06-29 20:59:15` — [Bloc2] 🛑 Aucun clip OFFICIEL FIFA certifie pour Brazil – Japan — arret + validation manuelle requise.
+- `2026-06-29 20:59:16` — [Bloc2] ✅ Bloc 2 termine.
