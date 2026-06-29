@@ -357,7 +357,7 @@ def download_clip(video_url: str, base_name: str) -> Path | None:
     cmd = [
         "yt-dlp",
         *_cookie_args(),
-        "-f", "bv*[ext=mp4]+ba[ext=m4a]/b[ext=mp4]/b",
+        "-f", "bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best",
         "--merge-output-format", "mp4",
         "--no-playlist",
         "--no-warnings",
