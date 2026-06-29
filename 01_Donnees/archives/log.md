@@ -63,3 +63,25 @@
 - `2026-06-29 20:59:15` — [Bloc2] ⛔ Candidat c/yt-dlp REJETE : origine FIFA non certifiee.
 - `2026-06-29 20:59:15` — [Bloc2] 🛑 Aucun clip OFFICIEL FIFA certifie pour Brazil – Japan — arret + validation manuelle requise.
 - `2026-06-29 20:59:16` — [Bloc2] ✅ Bloc 2 termine.
+- `2026-06-29 21:25:34` — [Bloc2] ▶️ Bloc 2 demarre — 4 match(s) a traiter.
+- `2026-06-29 21:25:34` — [Bloc2] 🔎 Recherche du highlight officiel FIFA : Algeria – Austria (2026-06-28_algeria-austria)
+- `2026-06-29 21:25:34` — [Bloc2] 🎯 (b) Candidat API @FIFA : « Highlights | Algeria 3-3 Austria | FIFA World Cup 2026™ »
+- `2026-06-29 21:25:35` — [Bloc2] ✅ Source CERTIFIEE officielle FIFA (channelId) via methode b/YouTube API.
+- `2026-06-29 21:25:36` — [Bloc2] ❌ yt-dlp a echoue (code 1) : ERROR: [youtube] 5Mvh0mqY8ik: Sign in to confirm you’re not a bot. Use --cookies-from-browser or --cookies for the authentication. See  https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp  for how to manually pass cookies. Also see  https://github.com/yt-dlp/yt-dlp/wiki/Extract
+- `2026-06-29 21:25:36` — [Bloc2] ❌ Echec telechargement pour Algeria – Austria.
+- `2026-06-29 21:25:37` — [Bloc2] 🔎 Recherche du highlight officiel FIFA : Jordan – Argentina (2026-06-28_jordan-argentina)
+- `2026-06-29 21:25:37` — [Bloc2] 🎯 (b) Candidat API @FIFA : « Highlights | Jordan 1-3 Argentina | FIFA World Cup 2026™ »
+- `2026-06-29 21:25:37` — [Bloc2] ✅ Source CERTIFIEE officielle FIFA (channelId) via methode b/YouTube API.
+- `2026-06-29 21:25:39` — [Bloc2] ❌ yt-dlp a echoue (code 1) : ERROR: [youtube] M6mpXtMm93M: Sign in to confirm you’re not a bot. Use --cookies-from-browser or --cookies for the authentication. See  https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp  for how to manually pass cookies. Also see  https://github.com/yt-dlp/yt-dlp/wiki/Extract
+- `2026-06-29 21:25:39` — [Bloc2] ❌ Echec telechargement pour Jordan – Argentina.
+- `2026-06-29 21:25:39` — [Bloc2] 🔎 Recherche du highlight officiel FIFA : South Africa – Canada (2026-06-28_south-africa-canada)
+- `2026-06-29 21:25:40` — [Bloc2] 🎯 (b) Candidat API @FIFA : « Highlights | South Africa 0-1 Canada | FIFA World Cup 2026™ »
+- `2026-06-29 21:25:40` — [Bloc2] ✅ Source CERTIFIEE officielle FIFA (channelId) via methode b/YouTube API.
+- `2026-06-29 21:25:41` — [Bloc2] ❌ yt-dlp a echoue (code 1) : ERROR: [youtube] uv-FSqzHXAo: Sign in to confirm you’re not a bot. Use --cookies-from-browser or --cookies for the authentication. See  https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp  for how to manually pass cookies. Also see  https://github.com/yt-dlp/yt-dlp/wiki/Extract
+- `2026-06-29 21:25:41` — [Bloc2] ❌ Echec telechargement pour South Africa – Canada.
+- `2026-06-29 21:25:42` — [Bloc2] 🔎 Recherche du highlight officiel FIFA : Brazil – Japan (2026-06-29_brazil-japan)
+- `2026-06-29 21:25:43` — [Bloc2] 🎯 (b) Candidat API @FIFA : « Brazil Train Before Japan | FIFA World Cup 2026™ »
+- `2026-06-29 21:25:43` — [Bloc2] ✅ Source CERTIFIEE officielle FIFA (channelId) via methode b/YouTube API.
+- `2026-06-29 21:25:44` — [Bloc2] ❌ yt-dlp a echoue (code 1) : ERROR: [youtube] -2LISS18if0: Sign in to confirm you’re not a bot. Use --cookies-from-browser or --cookies for the authentication. See  https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp  for how to manually pass cookies. Also see  https://github.com/yt-dlp/yt-dlp/wiki/Extract
+- `2026-06-29 21:25:44` — [Bloc2] ❌ Echec telechargement pour Brazil – Japan.
+- `2026-06-29 21:25:45` — [Bloc2] ✅ Bloc 2 termine.
