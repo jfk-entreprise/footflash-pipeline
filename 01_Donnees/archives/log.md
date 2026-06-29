@@ -109,3 +109,25 @@
 - `2026-06-29 22:22:07` — [Bloc2] ❌ yt-dlp a echoue (code 1) : ERROR: [youtube] -2LISS18if0: Requested format is not available. Use --list-formats for a list of available formats
 - `2026-06-29 22:22:07` — [Bloc2] ❌ Echec telechargement pour Brazil – Japan.
 - `2026-06-29 22:22:08` — [Bloc2] ✅ Bloc 2 termine.
+- `2026-06-29 22:29:36` — [Bloc2] ▶️ Bloc 2 demarre — 4 match(s) a traiter.
+- `2026-06-29 22:29:36` — [Bloc2] 🔎 Recherche du highlight officiel FIFA : Algeria – Austria (2026-06-28_algeria-austria)
+- `2026-06-29 22:29:36` — [Bloc2] 🎯 (b) Candidat API @FIFA : « Highlights | Algeria 3-3 Austria | FIFA World Cup 2026™ »
+- `2026-06-29 22:29:36` — [Bloc2] ✅ Source CERTIFIEE officielle FIFA (channelId) via methode b/YouTube API.
+- `2026-06-29 22:29:39` — [Bloc2] ❌ yt-dlp a echoue (code 1) : ERROR: [youtube] 5Mvh0mqY8ik: Requested format is not available. Use --list-formats for a list of available formats
+- `2026-06-29 22:29:39` — [Bloc2] ❌ Echec telechargement pour Algeria – Austria.
+- `2026-06-29 22:29:39` — [Bloc2] 🔎 Recherche du highlight officiel FIFA : Jordan – Argentina (2026-06-28_jordan-argentina)
+- `2026-06-29 22:29:40` — [Bloc2] 🎯 (b) Candidat API @FIFA : « Highlights | Jordan 1-3 Argentina | FIFA World Cup 2026™ »
+- `2026-06-29 22:29:40` — [Bloc2] ✅ Source CERTIFIEE officielle FIFA (channelId) via methode b/YouTube API.
+- `2026-06-29 22:29:42` — [Bloc2] ❌ yt-dlp a echoue (code 1) : ERROR: [youtube] M6mpXtMm93M: Requested format is not available. Use --list-formats for a list of available formats
+- `2026-06-29 22:29:42` — [Bloc2] ❌ Echec telechargement pour Jordan – Argentina.
+- `2026-06-29 22:29:43` — [Bloc2] 🔎 Recherche du highlight officiel FIFA : South Africa – Canada (2026-06-28_south-africa-canada)
+- `2026-06-29 22:29:43` — [Bloc2] 🎯 (b) Candidat API @FIFA : « Highlights | South Africa 0-1 Canada | FIFA World Cup 2026™ »
+- `2026-06-29 22:29:43` — [Bloc2] ✅ Source CERTIFIEE officielle FIFA (channelId) via methode b/YouTube API.
+- `2026-06-29 22:29:46` — [Bloc2] ❌ yt-dlp a echoue (code 1) : ERROR: [youtube] uv-FSqzHXAo: Requested format is not available. Use --list-formats for a list of available formats
+- `2026-06-29 22:29:46` — [Bloc2] ❌ Echec telechargement pour South Africa – Canada.
+- `2026-06-29 22:29:46` — [Bloc2] 🔎 Recherche du highlight officiel FIFA : Brazil – Japan (2026-06-29_brazil-japan)
+- `2026-06-29 22:29:47` — [Bloc2] 🎯 (b) Candidat API @FIFA : « Brazil Train Before Japan | FIFA World Cup 2026™ »
+- `2026-06-29 22:29:47` — [Bloc2] ✅ Source CERTIFIEE officielle FIFA (channelId) via methode b/YouTube API.
+- `2026-06-29 22:29:49` — [Bloc2] ❌ yt-dlp a echoue (code 1) : ERROR: [youtube] -2LISS18if0: Requested format is not available. Use --list-formats for a list of available formats
+- `2026-06-29 22:29:49` — [Bloc2] ❌ Echec telechargement pour Brazil – Japan.
+- `2026-06-29 22:29:50` — [Bloc2] ✅ Bloc 2 termine.
