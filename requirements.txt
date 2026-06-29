@@ -1,0 +1,7 @@
+# FootFlash — dépendances de production (référence centrale, versions épinglées).
+# Chaque workflow installe SON sous-ensemble (évite d'installer torch partout) :
+#   Bloc2 -> requirements-bloc2.txt   Bloc5 -> requirements-bloc5.txt   Bloc8 -> requirements-bloc8.txt
+# Pour tout installer en local : pip install -r requirements.txt
+-r requirements-bloc2.txt
+-r requirements-bloc5.txt
+-r requirements-bloc8.txt

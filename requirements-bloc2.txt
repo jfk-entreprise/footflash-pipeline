@@ -1,0 +1,4 @@
+# Bloc 2 — téléchargement clips FIFA
+# NB : yt-dlp doit rester RÉCENT (un yt-dlp trop vieux casse face à YouTube).
+#      On fixe un plancher plutôt qu'un pin strict, et on met à jour régulièrement.
+yt-dlp>=2025.1.1

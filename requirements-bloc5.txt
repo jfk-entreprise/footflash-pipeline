@@ -1,0 +1,4 @@
+# Bloc 5 — voix off Kokoro (TTS)
+kokoro>=0.9.2
+misaki[fr]>=0.9.3      # G2P FRANÇAIS (M4) — sans ça, bascule en voix anglaise
+soundfile==0.12.1

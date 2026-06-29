@@ -1,0 +1,2 @@
+# Bloc 8 — publication TikTok + YouTube
+requests==2.32.3

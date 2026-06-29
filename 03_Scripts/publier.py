@@ -317,8 +317,17 @@ def publier_match(base: str, entry: dict) -> bool:
             continue
 
         seo = build_seo(variante, titre, base)
-        res_yt = deja.get("youtube") or publier_plateforme("youtube", yt_ok, upload_youtube, video, seo)
-        res_tt = deja.get("tiktok") or publier_plateforme("tiktok", tt_ok, upload_tiktok, video, seo)
+        # M1 : on ne réutilise QUE les succès (présence d'un "id"). Un échec
+        # précédent n'est PAS mis en cache -> chaque plateforme est retentée
+        # indépendamment au run suivant.
+        if deja.get("youtube", {}).get("id"):
+            res_yt = deja["youtube"]
+        else:
+            res_yt = publier_plateforme("youtube", yt_ok, upload_youtube, video, seo)
+        if deja.get("tiktok", {}).get("id"):
+            res_tt = deja["tiktok"]
+        else:
+            res_tt = publier_plateforme("tiktok", tt_ok, upload_tiktok, video, seo)
         publication[variante] = {"youtube": res_yt, "tiktok": res_tt, "seo_titre": seo["title"]}
 
         if "erreur" in res_yt or "erreur" in res_tt:
