@@ -1,27 +1,12 @@
 # =============================================================================
 # FootFlash — Bloc 7 (1/2) : Notification de validation
+# Chaine : declenche par le Bloc 6. NE declenche PAS le Bloc 8 (validation humaine).
+# La reponse OUI/NON est traitee par le watcher (bloc7-watch-validation.yml, cron)
+# qui declenche le Bloc 8 via gh workflow run.
 # =============================================================================
-# Chainage : Bloc1 -> ... -> Bloc6 -> [Bloc7].
-# Declencheur : fin (succes) du Bloc 6 (les videos finales sont alors pretes)
-#   + workflow_dispatch.
-#
-# Le job :
-#   1. Recupere le repo.
-#   2. Lance 03_Scripts/notifier_validation.py -> envoie la notif Telegram
-#      (match + score + liens GitHub + boutons Publier/Rejeter) et inscrit le
-#      match comme "pending" dans 05_Montage/validation_state.json.
-#   3. Commit/push l'etat de validation + le log.
-#
-# La REPONSE (OUI/NON) est traitee par le watcher cron : bloc7-watch-validation.yml.
-# =============================================================================
-
 name: Bloc7 - Notification validation
 
 on:
-  workflow_run:
-    workflows: ["Bloc6 - Montage video"]
-    types:
-      - completed
   workflow_dispatch:
 
 concurrency:
@@ -35,9 +20,6 @@ jobs:
   notifier:
     runs-on: ubuntu-latest
     timeout-minutes: 15
-    if: >
-      github.event_name == 'workflow_dispatch' ||
-      github.event.workflow_run.conclusion == 'success'
 
     steps:
       - name: Checkout du repo

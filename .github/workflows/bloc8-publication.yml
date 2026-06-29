@@ -1,23 +1,9 @@
 # =============================================================================
 # FootFlash — Bloc 8 : Publication TikTok + YouTube Shorts
+# Chaine : declenche par le watcher du Bloc 7 (gh workflow run -f base=<base>)
+#   apres un "OUI" de validation. Fin de chaine (ne declenche rien).
+# Sans refresh tokens OAuth -> mode SIMULATION (cf. publier.py).
 # =============================================================================
-# Chainage : ... -> Bloc7 (validation) -> [Bloc8].
-# Declencheur : workflow_dispatch (input `base`), appele par le watcher du Bloc 7
-#   (`gh workflow run bloc8-publication.yml -f base=<base>`) apres un "OUI".
-#
-# Le job :
-#   1. Recupere le repo AVEC Git LFS (les vrais octets des MP4 sont requis pour l'upload).
-#   2. Installe requests.
-#   3. Lance 03_Scripts/publier.py :
-#        - publie les 2 videos sur TikTok + YouTube (prive/unlisted) si les
-#          refresh tokens OAuth sont presents, sinon mode SIMULATION ;
-#        - notifie Telegram, passe le match a "published", deplace les MP4
-#          vers 06_Archives/publie/.
-#   4. Commit/push (etat + archivage + log) avec push resilient.
-#
-# Secrets : voir env ci-dessous. Sans YOUTUBE_* / TIKTOK_REFRESH_TOKEN -> simulation.
-# =============================================================================
-
 name: Bloc8 - Publication
 
 on:
@@ -63,11 +49,9 @@ jobs:
           BASE:                        ${{ github.event.inputs.base }}
           TELEGRAM_BOT_TOKEN:          ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID:            ${{ secrets.TELEGRAM_CHAT_ID }}
-          # YouTube (OAuth requis pour l'upload ; sinon SIMULATION)
           YOUTUBE_CLIENT_ID:           ${{ secrets.YOUTUBE_CLIENT_ID }}
           YOUTUBE_CLIENT_SECRET:       ${{ secrets.YOUTUBE_CLIENT_SECRET }}
           YOUTUBE_REFRESH_TOKEN:       ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
-          # TikTok (OAuth requis pour l'upload ; sinon SIMULATION)
           TIKTOK_SANDBOX_CLIENT_KEY:    ${{ secrets.TIKTOK_SANDBOX_CLIENT_KEY }}
           TIKTOK_SANDBOX_CLIENT_SECRET: ${{ secrets.TIKTOK_SANDBOX_CLIENT_SECRET }}
           TIKTOK_REFRESH_TOKEN:         ${{ secrets.TIKTOK_REFRESH_TOKEN }}
@@ -88,4 +72,6 @@ jobs:
           else
             git commit -m "Bloc8: publication + archivage [skip ci]"
             for i in 1 2 3; do
-              git pull --rebase --autostash origin "${GITHUB_REF_NAME:-m
+              git pull --rebase --autostash origin "${GITHUB_REF_NAME:-main}" && git push && break || sleep 5
+            done
+          fi

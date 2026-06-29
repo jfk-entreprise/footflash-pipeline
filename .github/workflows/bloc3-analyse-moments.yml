@@ -1,27 +1,10 @@
 # =============================================================================
 # FootFlash — Bloc 3 : Analyse des moments cles
+# Chaine : declenche par le Bloc 2 (gh workflow run). Declenche ensuite le Bloc 4.
 # =============================================================================
-# Chainage : Bloc1 -> Bloc2 -> [Bloc3].
-# Declencheur : fin (succes) du workflow Bloc 2 (les clips sont alors telecharges)
-#   -> workflow_run fonctionne meme quand le run amont a ete declenche par un token.
-#   + workflow_dispatch pour relance manuelle.
-#
-# Le job :
-#   1. Recupere le repo (pointeurs LFS suffisent : on ne lit que la presence du clip).
-#   2. Lance 03_Scripts/analyse_moments.py (stdlib only, anti-doublon integre).
-#      -> ecrit AAAA-MM-JJ_equipe1-equipe2_moments.json dans 01_Donnees/matchs/.
-#   3. Commit/push les analyses + le log.
-#
-# SECURITE : aucune cle depuis config.md. Telegram (optionnel) via GitHub Secrets.
-# =============================================================================
-
 name: Bloc3 - Analyse moments cles
 
 on:
-  workflow_run:
-    workflows: ["Bloc2 - Telechargement clips FIFA"]
-    types:
-      - completed
   workflow_dispatch:
 
 concurrency:
@@ -30,15 +13,12 @@ concurrency:
 
 permissions:
   contents: write
+  actions: write
 
 jobs:
   analyser-moments:
     runs-on: ubuntu-latest
     timeout-minutes: 20
-    # Ne tourne que si le Bloc 2 s'est bien termine (ou lancement manuel).
-    if: >
-      github.event_name == 'workflow_dispatch' ||
-      github.event.workflow_run.conclusion == 'success'
 
     steps:
       - name: Checkout du repo
@@ -52,11 +32,7 @@ jobs:
           python-version: "3.11"
 
       - name: Analyse des moments cles
-        env:
-          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          TELEGRAM_CHAT_ID:   ${{ secrets.TELEGRAM_CHAT_ID }}
         run: |
-          # On localise le script quel que soit le prefixe emoji du dossier 03_Scripts.
           SCRIPT="$(find . -name analyse_moments.py -path '*Scripts*' | head -n 1)"
           if [ -z "$SCRIPT" ]; then
             echo "::error::analyse_moments.py introuvable"; exit 1
@@ -64,10 +40,16 @@ jobs:
           echo "Script : $SCRIPT"
           python "$SCRIPT"
 
-      - name: Commit et push des analyses (_moments.json + log)
+      - name: Commit et push (_moments.json + log)
+        id: push
         run: |
           git config user.name  "footflash-bot"
           git config user.email "footflash-bot@users.noreply.github.com"
+          NOUVEAU="false"
+          if git status --porcelain | grep -qE '_moments\.json'; then
+            NOUVEAU="true"
+          fi
+          echo "nouveau=$NOUVEAU" >> "$GITHUB_OUTPUT"
           git add -A 2>/dev/null || true
           if git diff --cached --quiet; then
             echo "Aucun changement a committer."
@@ -77,3 +59,11 @@ jobs:
               git pull --rebase --autostash origin "${GITHUB_REF_NAME:-main}" && git push && break || sleep 5
             done
           fi
+
+      - name: Declenchement du Bloc 4 (si nouvelle analyse)
+        if: steps.push.outputs.nouveau == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "Nouvelle(s) analyse(s) — declenchement du Bloc 4."
+          gh workflow run "bloc4-scripts.yml" --ref "${{ github.ref_name }}"

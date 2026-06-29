@@ -1,27 +1,10 @@
 # =============================================================================
 # FootFlash — Bloc 4 : Generation des scripts de voix off (buts + analyse)
+# Chaine : declenche par le Bloc 3. Declenche ensuite le Bloc 5.
 # =============================================================================
-# Chainage : Bloc1 -> Bloc2 -> Bloc3 -> [Bloc4].
-# Declencheur : fin (succes) du Bloc 3 (les _moments.json sont alors disponibles)
-#   + workflow_dispatch pour relance manuelle.
-#
-# Le job :
-#   1. Recupere le repo.
-#   2. Lance les 2 generateurs (stdlib only, anti-doublon .scripted.json) :
-#        - 03_Scripts/buts/generer_script_buts.py      -> *_script-buts.txt
-#        - 03_Scripts/analyse/generer_script_analyse.py -> *_script-analyse.txt
-#   3. Commit/push les scripts + le log.
-#
-# SECURITE : aucune cle requise (generation 100% locale a partir des JSON).
-# =============================================================================
-
 name: Bloc4 - Scripts voix off
 
 on:
-  workflow_run:
-    workflows: ["Bloc3 - Analyse moments cles"]
-    types:
-      - completed
   workflow_dispatch:
 
 concurrency:
@@ -30,14 +13,12 @@ concurrency:
 
 permissions:
   contents: write
+  actions: write
 
 jobs:
   generer-scripts:
     runs-on: ubuntu-latest
     timeout-minutes: 20
-    if: >
-      github.event_name == 'workflow_dispatch' ||
-      github.event.workflow_run.conclusion == 'success'
 
     steps:
       - name: Checkout du repo
@@ -57,15 +38,19 @@ jobs:
           if [ -z "$BUTS" ] || [ -z "$ANALYSE" ]; then
             echo "::error::generateur(s) Bloc4 introuvable(s)"; exit 1
           fi
-          echo "Buts    : $BUTS"
-          echo "Analyse : $ANALYSE"
           python "$BUTS"
           python "$ANALYSE"
 
-      - name: Commit et push des scripts (.txt + log)
+      - name: Commit et push (.txt + log)
+        id: push
         run: |
           git config user.name  "footflash-bot"
           git config user.email "footflash-bot@users.noreply.github.com"
+          NOUVEAU="false"
+          if git status --porcelain | grep -qE '_script-.*\.txt'; then
+            NOUVEAU="true"
+          fi
+          echo "nouveau=$NOUVEAU" >> "$GITHUB_OUTPUT"
           git add -A 2>/dev/null || true
           if git diff --cached --quiet; then
             echo "Aucun changement a committer."
@@ -75,3 +60,11 @@ jobs:
               git pull --rebase --autostash origin "${GITHUB_REF_NAME:-main}" && git push && break || sleep 5
             done
           fi
+
+      - name: Declenchement du Bloc 5 (si nouveaux scripts)
+        if: steps.push.outputs.nouveau == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "Nouveau(x) script(s) — declenchement du Bloc 5."
+          gh workflow run "bloc5-voix.yml" --ref "${{ github.ref_name }}"

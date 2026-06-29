@@ -1,25 +1,10 @@
 # =============================================================================
 # FootFlash — Bloc 6 : Montage video final (FFmpeg)
+# Chaine : declenche par le Bloc 5. Declenche ensuite le Bloc 7.
 # =============================================================================
-# Chainage : Bloc1 -> Bloc2 -> Bloc3 -> Bloc4 -> Bloc5 -> [Bloc6].
-# Declencheur : fin (succes) du Bloc 5 (les voix off .mp3 sont alors pretes)
-#   + workflow_dispatch pour relance manuelle.
-#
-# Le job :
-#   1. Recupere le repo (Git LFS : clips .mp4 + voix .mp3 necessaires au montage).
-#   2. Installe ffmpeg + polices DejaVu (drawtext / sous-titres .ass).
-#   3. Lance 03_Scripts/generer_montage.py (anti-doublon .rendered.json integre)
-#      -> 05_Montage/rendus/{base}_video-{buts|analyse}.mp4 (9:16, mobile).
-#   4. Commit/push les videos (LFS) + les .ass (timelines) + le log + l'etat.
-# =============================================================================
-
 name: Bloc6 - Montage video
 
 on:
-  workflow_run:
-    workflows: ["Bloc5 - Voix off"]
-    types:
-      - completed
   workflow_dispatch:
 
 concurrency:
@@ -28,14 +13,12 @@ concurrency:
 
 permissions:
   contents: write
+  actions: write
 
 jobs:
   monter-videos:
     runs-on: ubuntu-latest
     timeout-minutes: 60
-    if: >
-      github.event_name == 'workflow_dispatch' ||
-      github.event.workflow_run.conclusion == 'success'
 
     steps:
       - name: Checkout du repo (avec Git LFS)
@@ -65,9 +48,15 @@ jobs:
           python "$SCRIPT"
 
       - name: Commit et push (MP4 LFS + timelines .ass + log + etat)
+        id: push
         run: |
           git config user.name  "footflash-bot"
           git config user.email "footflash-bot@users.noreply.github.com"
+          NOUVEAU="false"
+          if git status --porcelain | grep -qE '_video-.*\.mp4'; then
+            NOUVEAU="true"
+          fi
+          echo "nouveau=$NOUVEAU" >> "$GITHUB_OUTPUT"
           git add -A 2>/dev/null || true
           if git diff --cached --quiet; then
             echo "Aucun changement a committer."
@@ -77,3 +66,11 @@ jobs:
               git pull --rebase --autostash origin "${GITHUB_REF_NAME:-main}" && git push && break || sleep 5
             done
           fi
+
+      - name: Declenchement du Bloc 7 (si nouvelle video)
+        if: steps.push.outputs.nouveau == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "Nouvelle(s) video(s) — declenchement du Bloc 7 (notification)."
+          gh workflow run "bloc7-notification.yml" --ref "${{ github.ref_name }}"

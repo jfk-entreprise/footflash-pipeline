@@ -1,36 +1,27 @@
 # =============================================================================
 # FootFlash — Bloc 2 : Telechargement automatique des clips officiels FIFA
 # =============================================================================
-# Declencheur : un nouveau JSON de match pousse dans 01_Donnees/matchs/
-#   (les noms de dossiers peuvent porter un prefixe emoji "📁 " : le filtre
-#    de chemin utilise donc des jokers tolerants *matchs*).
-#
-# Le job :
-#   1. Recupere le repo (avec Git LFS pour les .mp4).
-#   2. Installe yt-dlp + ffmpeg.
-#   3. Lance 03_Scripts/telecharger_clips.py (anti-doublon integre : seuls les
-#      matchs sans clip sont traites).
-#   4. Commit/push les clips (LFS), le log et l'etat anti-doublon.
-#
-# SECURITE : aucune cle n'est lue depuis config.md. Les secrets viennent des
-#            GitHub Secrets du repo (voir README_BLOC2.md).
+# Declencheur : push d'un nouveau JSON de match (B1) dans 01_Donnees/matchs/
+#   (filtre *_data.json : n'inclut pas les _moments.json du Bloc 3).
+# Le job : checkout (LFS) -> yt-dlp+ffmpeg -> telechargement clips FIFA certifies
+#   -> commit/push resilient (clips via Git LFS) -> declenche le Bloc 3.
+# SECURITE : secrets via GitHub Secrets uniquement. Push avec GITHUB_TOKEN.
 # =============================================================================
-
 name: Bloc2 - Telechargement clips FIFA
 
 on:
   push:
     paths:
-      - "**/*matchs*/*.json"        # nouveau JSON de match (tolerant au prefixe emoji)
-  workflow_dispatch:                # declenchement manuel possible
+      - "**/*matchs*/*_data.json"   # SEULEMENT les JSON de match B1 (pas _moments.json)
+  workflow_dispatch:
 
-# Empeche deux executions concurrentes de se marcher dessus (push + commit)
 concurrency:
   group: footflash-bloc2
   cancel-in-progress: false
 
 permissions:
-  contents: write                   # necessaire pour committer les clips et le log
+  contents: write                   # committer les clips (LFS) + log + etat
+  actions: write                    # declencher le Bloc 3 via gh workflow run
 
 jobs:
   telecharger-clips:
@@ -42,7 +33,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           lfs: true
-          fetch-depth: 0            # historique complet (detection / push fiables)
+          fetch-depth: 0
 
       - name: Configuration de Python
         uses: actions/setup-python@v5
@@ -65,7 +56,6 @@ jobs:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID:   ${{ secrets.TELEGRAM_CHAT_ID }}
         run: |
-          # On localise le script quel que soit le prefixe emoji du dossier 03_Scripts.
           SCRIPT="$(find . -name telecharger_clips.py -path '*Scripts*' | head -n 1)"
           if [ -z "$SCRIPT" ]; then
             echo "::error::telecharger_clips.py introuvable"; exit 1
@@ -74,15 +64,30 @@ jobs:
           python "$SCRIPT"
 
       - name: Commit et push des resultats (clips LFS + log + etat)
+        id: push
         run: |
           git config user.name  "footflash-bot"
           git config user.email "footflash-bot@users.noreply.github.com"
-          # On ajoute clips bruts, journal et fichier anti-doublon (tolerant emoji).
-          git add -A -- '*bruts*' '*archives*' 2>/dev/null || true
+          # Nouveau(x) clip(s) telecharge(s) ? (avant le git add)
+          NOUVEAU="false"
+          if git status --porcelain | grep -qE '_brut\.mp4'; then
+            NOUVEAU="true"
+          fi
+          echo "nouveau=$NOUVEAU" >> "$GITHUB_OUTPUT"
           git add -A 2>/dev/null || true
           if git diff --cached --quiet; then
             echo "Aucun changement a committer."
           else
             git commit -m "Bloc2: clips FIFA telecharges + log [skip ci]"
             for i in 1 2 3; do
-              git pull --
+              git pull --rebase --autostash origin "${GITHUB_REF_NAME:-main}" && git push && break || sleep 5
+            done
+          fi
+
+      - name: Declenchement du Bloc 3 (si nouveau clip)
+        if: steps.push.outputs.nouveau == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "Nouveau(x) clip(s) — declenchement du Bloc 3."
+          gh workflow run "bloc3-analyse-moments.yml" --ref "${{ github.ref_name }}"

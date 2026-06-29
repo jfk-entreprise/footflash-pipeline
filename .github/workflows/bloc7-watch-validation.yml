@@ -1,17 +1,8 @@
 # =============================================================================
-# FootFlash — Bloc 7 (2/2) : Watcher de validation (cron */5)
+# FootFlash — Bloc 7 (2/2) : Watcher de validation (cron */5 12-23h UTC)
+# Lit les reponses Telegram (OUI/NON ou boutons) et declenche le Bloc 8 (publish)
+# via gh workflow run, ou arrete proprement (reject). Etat : validation_state.json.
 # =============================================================================
-# Lit les reponses Telegram (OUI/NON ou boutons) et agit :
-#   - OUI  / "✅ Publier"  -> declenche le Bloc 8 (gh workflow run).
-#   - NON  / "❌ Rejeter"  -> arret propre (log, aucune publication).
-#
-# Etat persistant : 05_Montage/validation_state.json (offset Telegram + statut
-# de chaque match), SUIVI par git -> il survit entre les runs du cron.
-#
-# Cadence : toutes les 5 minutes. Garde-fou : ne tourne que pendant la fenetre
-# du tournoi (11/06 -> 19/07 2026) pour ne pas poller indefiniment hors saison.
-# =============================================================================
-
 name: Bloc7 - Watcher validation
 
 on:
@@ -30,7 +21,7 @@ permissions:
 jobs:
   watcher:
     runs-on: ubuntu-latest
-    timeout-minutes: 4          # < intervalle cron (5 min) : evite tout chevauchement (s6)
+    timeout-minutes: 4          # < intervalle cron (5 min) : evite tout chevauchement
 
     steps:
       - name: Garde-fou — fenetre du tournoi (11/06 -> 19/07 2026)
@@ -80,4 +71,6 @@ jobs:
           else
             git commit -m "Bloc7: maj etat de validation (watcher) [skip ci]"
             for i in 1 2 3; do
-      
+              git pull --rebase --autostash origin "${GITHUB_REF_NAME:-main}" && git push && break || sleep 5
+            done
+          fi
