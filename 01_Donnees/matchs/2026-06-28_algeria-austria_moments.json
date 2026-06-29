@@ -1,0 +1,46 @@
+{
+  "source": "2026-06-28_algeria-austria_data.json",
+  "clip": "02_Clips/bruts/2026-06-28_algeria-austria_brut.mp4",
+  "fixture_id": 537402,
+  "genere_le": "2026-06-29T23:39:29.756267+00:00",
+  "match": {
+    "date": "2026-06-28",
+    "competition": "FIFA World Cup",
+    "tour": null,
+    "stade": null,
+    "domicile": "Algeria",
+    "exterieur": "Austria",
+    "score_final": {
+      "home": 3,
+      "away": 3
+    },
+    "vainqueur": null
+  },
+  "scenario": "Partage des points spectaculaire : Algeria 3–3 Austria.",
+  "moments": [],
+  "stats_cles": {
+    "possession": {
+      "home": null,
+      "away": null
+    },
+    "tirs_total": {
+      "home": null,
+      "away": null
+    },
+    "tirs_cadres": {
+      "home": null,
+      "away": null
+    },
+    "corners": {
+      "home": null,
+      "away": null
+    },
+    "xg": {
+      "home": null,
+      "away": null
+    }
+  },
+  "axes_analyse": [
+    "Données statistiques limitées : analyse centrée sur les buts."
+  ]
+}

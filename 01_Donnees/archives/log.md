@@ -199,3 +199,9 @@
 - `2026-06-29 23:21:31` — [Bloc2] ❌ yt-dlp a echoue (code 1) : ERROR: [youtube] -2LISS18if0: Sign in to confirm you’re not a bot. Use --cookies-from-browser or --cookies for the authentication. See  https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp  for how to manually pass cookies. Also see  https://github.com/yt-dlp/yt-dlp/wiki/Extract
 - `2026-06-29 23:21:31` — [Bloc2] ❌ Echec telechargement pour Brazil – Japan.
 - `2026-06-29 23:21:31` — [Bloc2] ✅ Bloc 2 termine.
+- `2026-06-29 23:39:29` — [Bloc3] 🧠 Moments cles : 2026-06-28_algeria-austria_moments.json (Algeria 3–3 Austria, 0 but(s), 0 moment(s)).
+- `2026-06-29 23:39:29` — [Bloc3] ⏳ Clip absent pour 2026-06-28_jordan-argentina_data.json — analyse reportee.
+- `2026-06-29 23:39:29` — [Bloc3] ⏳ Clip absent pour 2026-06-28_south-africa-canada_data.json — analyse reportee.
+- `2026-06-29 23:39:29` — [Bloc3] ⏳ Clip absent pour 2026-06-29_brazil-japan_data.json — analyse reportee.
+- `2026-06-29 23:39:29` — [Bloc3] ✅ Termine : 1 analyse(s) generee(s).
+- `2026-06-29 23:39:29` — [Bloc3] ℹ️ GitHub Actions detecte — push gere par le workflow (auto-push ignore).
