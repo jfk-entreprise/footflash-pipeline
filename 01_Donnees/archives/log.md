@@ -211,3 +211,7 @@
 - `2026-06-29 23:39:42` — [Bloc4] 🎙️ Script analyse : 2026-06-28_algeria-austria_script-analyse.txt.
 - `2026-06-29 23:39:42` — [Bloc4] ✅ Termine : 1 script(s) analyse genere(s).
 - `2026-06-29 23:39:42` — [Bloc4] ℹ️ GitHub Actions detecte — push gere par le workflow (auto-push ignore).
+- `2026-06-29 23:42:14` — [Bloc5] 🔊 Voix off (buts) : 2026-06-28_algeria-austria_voix-buts.mp3 [voix ff_siwis].
+- `2026-06-29 23:42:28` — [Bloc5] 🔊 Voix off (analyse) : 2026-06-28_algeria-austria_voix-analyse.mp3 [voix ff_siwis].
+- `2026-06-29 23:42:28` — [Bloc5] ✅ Termine : 2 voix off generee(s).
+- `2026-06-29 23:42:28` — [Bloc5] ℹ️ GitHub Actions detecte — push gere par le workflow (auto-push ignore).
