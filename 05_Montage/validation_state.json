@@ -1,15 +1,16 @@
 {
-  "telegram_offset": 0,
+  "telegram_offset": 658123701,
   "matchs": {
     "2026-06-28_algeria-austria": {
-      "status": "pending",
+      "status": "validated",
       "message_id": 49,
       "titre": "Algeria 3–3 Austria",
       "notifie_le": "2026-06-29T23:44:09.702159+00:00",
       "videos": {
         "buts": "05_Montage/rendus/2026-06-28_algeria-austria_video-buts.mp4",
         "analyse": "05_Montage/rendus/2026-06-28_algeria-austria_video-analyse.mp4"
-      }
+      },
+      "decide_le": "2026-06-29T23:49:02.929243"
     }
   }
 }

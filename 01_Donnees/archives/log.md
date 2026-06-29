@@ -221,3 +221,6 @@
 - `2026-06-29 23:43:57` — [Bloc6] ℹ️ GitHub Actions detecte — push gere par le workflow (auto-push ignore).
 - `2026-06-29 23:44:09` — [Bloc7] 📨 Notification de validation envoyée : Algeria 3–3 Austria (2026-06-28_algeria-austria).
 - `2026-06-29 23:44:09` — [Bloc7] ✅ Terminé : 1 match(s) en attente de validation.
+- `2026-06-29 23:49:02` — [Bloc7] ✅ Validé par l'utilisateur : Algeria 3–3 Austria — publication autorisée.
+- `2026-06-29 23:49:04` — [Bloc7] 🚀 Bloc 8 déclenché pour 2026-06-28_algeria-austria.
+- `2026-06-29 23:49:04` — [Bloc7] ✅ Watcher : 1 décision(s) traitée(s).
