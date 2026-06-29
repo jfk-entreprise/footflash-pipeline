@@ -136,9 +136,30 @@ def tiktok(args) -> None:
 # --------------------------------------------------------------------------- #
 # CLI
 # --------------------------------------------------------------------------- #
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description="Récupère les refresh tokens OAuth FootFlash.")
     sub = ap.add_subparsers(dest="plateforme", required=True)
 
     y = sub.add_parser("youtube", help="Refresh token YouTube Data API v3 (scope youtube.upload).")
-    y
+    y.add_argument("--client-id", required=True)
+    y.add_argument("--client-secret", required=True)
+    y.add_argument("--redirect-uri", default="http://localhost",
+                   help="Doit être enregistrée sur le client OAuth (défaut: http://localhost).")
+    y.set_defaults(func=youtube)
+
+    t = sub.add_parser("tiktok", help="Refresh token TikTok Content Posting API (scope video.publish).")
+    t.add_argument("--client-key", required=True)
+    t.add_argument("--client-secret", required=True)
+    t.add_argument("--redirect-uri", required=True,
+                   help="Doit correspondre EXACTEMENT à l'URI enregistrée sur l'app TikTok.")
+    t.set_defaults(func=tiktok)
+
+    args = ap.parse_args()
+    args.func(args)
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

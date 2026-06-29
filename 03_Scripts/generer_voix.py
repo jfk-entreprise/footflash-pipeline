@@ -237,6 +237,8 @@ def git_push_changes(nb: int) -> None:
 # --------------------------------------------------------------------------- #
 # Point d'entree
 # --------------------------------------------------------------------------- #
+
+
 def main() -> int:
     VOIXOFF_DIR.mkdir(parents=True, exist_ok=True)
     state = load_state()
@@ -244,11 +246,40 @@ def main() -> int:
 
     for get_dir, motif, suffixe, champ in JOBS:
         for txt_path in sorted(get_dir().glob(motif)):
-            # base = nom du match sans le suffixe "_script-buts.txt" / "_script-analyse.txt"
             base = txt_path.name.split("_script-")[0]
             if state.get(base, {}).get(champ):
                 continue
 
             texte = extraire_texte(txt_path.read_text(encoding="utf-8"))
             if not texte:
-                log(f"⚠️ Aucun texte exploitable dans {txt_path.
+                log(f"⚠️ Aucun texte exploitable dans {txt_path.name} — ignore.")
+                continue
+
+            out_path = VOIXOFF_DIR / f"{base}{suffixe}"
+            try:
+                audio, voix = synthetiser(texte)
+                ecrire_mp3(audio, out_path)
+            except Exception as exc:
+                log(f"❌ Echec voix off {txt_path.name} : {exc}")
+                continue
+
+            mark_state(base, champ)
+            log(f"🔊 Voix off ({champ}) : {out_path.name} [voix {voix}].")
+            if voix != VOIX_FR:
+                log(f"⚠️ Voix FRANÇAISE indisponible — bascule sur '{voix}' (anglais).")
+                send_telegram(
+                    "⚠️ <b>FootFlash — voix off en ANGLAIS</b>\n"
+                    f"Le G2P français a échoué pour <code>{out_path.name}</code> ; "
+                    f"voix de repli <code>{voix}</code>. Vérifier l'install de <code>misaki[fr]</code>.")
+            nouveaux += 1
+
+    if nouveaux == 0:
+        log("ℹ️ Aucune nouvelle voix off a generer.")
+    else:
+        log(f"✅ Termine : {nouveaux} voix off generee(s).")
+        git_push_changes(nouveaux)
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
