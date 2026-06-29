@@ -219,3 +219,5 @@
 - `2026-06-29 23:43:57` — [Bloc6] 🎬 Video montee (analyse) : 2026-06-28_algeria-austria_video-analyse.mp4 [79 mots, ~30s, 9:16].
 - `2026-06-29 23:43:57` — [Bloc6] ✅ Termine : 2 video(s) montee(s).
 - `2026-06-29 23:43:57` — [Bloc6] ℹ️ GitHub Actions detecte — push gere par le workflow (auto-push ignore).
+- `2026-06-29 23:44:09` — [Bloc7] 📨 Notification de validation envoyée : Algeria 3–3 Austria (2026-06-28_algeria-austria).
+- `2026-06-29 23:44:09` — [Bloc7] ✅ Terminé : 1 match(s) en attente de validation.
