@@ -55,7 +55,8 @@ jobs:
       - name: Installation des dependances
         run: |
           python -m pip install --upgrade pip
-          python -m pip install requests
+          REQ="$(find . -name requirements-bloc8.txt | head -n 1)"
+          python -m pip install -r "$REQ"
 
       - name: Publication
         env:
@@ -87,6 +88,4 @@ jobs:
           else
             git commit -m "Bloc8: publication + archivage [skip ci]"
             for i in 1 2 3; do
-              git pull --rebase --autostash origin "${GITHUB_REF_NAME:-main}" && git push && break || sleep 5
-            done
-          fi
+              git pull --rebase --autostash origin "${GITHUB_REF_NAME:-m

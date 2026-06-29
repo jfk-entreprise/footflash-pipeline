@@ -16,7 +16,7 @@ name: Bloc7 - Watcher validation
 
 on:
   schedule:
-    - cron: "*/5 * * * *"
+    - cron: "*/5 12-23 * * *"   # toutes les 5 min, 12h->23h UTC (maitrise du cout Actions)
   workflow_dispatch:
 
 concurrency:
@@ -30,7 +30,7 @@ permissions:
 jobs:
   watcher:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 4          # < intervalle cron (5 min) : evite tout chevauchement (s6)
 
     steps:
       - name: Garde-fou — fenetre du tournoi (11/06 -> 19/07 2026)
@@ -80,6 +80,4 @@ jobs:
           else
             git commit -m "Bloc7: maj etat de validation (watcher) [skip ci]"
             for i in 1 2 3; do
-              git pull --rebase --autostash origin "${GITHUB_REF_NAME:-main}" && git push && break || sleep 5
-            done
-          fi
+      

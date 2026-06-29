@@ -32,6 +32,9 @@ import sys
 import tempfile
 from datetime import datetime
 from pathlib import Path
+from urllib import parse, request
+
+VOIX_FR = "ff_siwis"          # voix francaise attendue (M4 : alerte si bascule EN)
 
 # --------------------------------------------------------------------------- #
 # Chemins
@@ -98,6 +101,20 @@ def mark_state(base: str, champ: str) -> None:
     entry[champ] = True
     state[base] = entry
     STATE_FILE.write_text(json.dumps(state, indent=2), encoding="utf-8")
+
+
+def send_telegram(text: str) -> None:
+    """Notification non bloquante (M4 : alerte si la voix française n'est pas dispo)."""
+    token = os.environ.get("TELEGRAM_BOT_TOKEN")
+    chat_id = os.environ.get("TELEGRAM_CHAT_ID")
+    if not token or not chat_id:
+        return
+    body = parse.urlencode({"chat_id": chat_id, "text": text, "parse_mode": "HTML"}).encode()
+    try:
+        request.urlopen(request.Request(
+            f"https://api.telegram.org/bot{token}/sendMessage", data=body, method="POST"), timeout=30)
+    except Exception as exc:
+        log(f"⚠️ Notification Telegram echouee : {exc}")
 
 
 # --------------------------------------------------------------------------- #
@@ -234,28 +251,4 @@ def main() -> int:
 
             texte = extraire_texte(txt_path.read_text(encoding="utf-8"))
             if not texte:
-                log(f"⚠️ Aucun texte exploitable dans {txt_path.name} — ignore.")
-                continue
-
-            out_path = VOIXOFF_DIR / f"{base}{suffixe}"
-            try:
-                audio, voix = synthetiser(texte)
-                ecrire_mp3(audio, out_path)
-            except Exception as exc:
-                log(f"❌ Echec voix off {txt_path.name} : {exc}")
-                continue
-
-            mark_state(base, champ)
-            log(f"🔊 Voix off ({champ}) : {out_path.name} [voix {voix}].")
-            nouveaux += 1
-
-    if nouveaux == 0:
-        log("ℹ️ Aucune nouvelle voix off a generer.")
-    else:
-        log(f"✅ Termine : {nouveaux} voix off generee(s).")
-        git_push_changes(nouveaux)
-    return 0
-
-
-if __name__ == "__main__":
-    sys.exit(main())
+                log(f"⚠️ Aucun texte exploitable dans {txt_path.

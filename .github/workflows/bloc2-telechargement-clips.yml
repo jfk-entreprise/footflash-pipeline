@@ -54,7 +54,8 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y ffmpeg
           python -m pip install --upgrade pip
-          python -m pip install -U yt-dlp
+          REQ="$(find . -name requirements-bloc2.txt | head -n 1)"
+          python -m pip install -U -r "$REQ"   # -U : yt-dlp doit rester recent (YouTube)
           yt-dlp --version
           ffmpeg -version | head -n 1
 
@@ -84,6 +85,4 @@ jobs:
           else
             git commit -m "Bloc2: clips FIFA telecharges + log [skip ci]"
             for i in 1 2 3; do
-              git pull --rebase --autostash origin "${GITHUB_REF_NAME:-main}" && git push && break || sleep 5
-            done
-          fi
+              git pull --
