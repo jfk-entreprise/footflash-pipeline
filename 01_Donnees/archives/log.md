@@ -215,3 +215,7 @@
 - `2026-06-29 23:42:28` — [Bloc5] 🔊 Voix off (analyse) : 2026-06-28_algeria-austria_voix-analyse.mp3 [voix ff_siwis].
 - `2026-06-29 23:42:28` — [Bloc5] ✅ Termine : 2 voix off generee(s).
 - `2026-06-29 23:42:28` — [Bloc5] ℹ️ GitHub Actions detecte — push gere par le workflow (auto-push ignore).
+- `2026-06-29 23:43:27` — [Bloc6] 🎬 Video montee (buts) : 2026-06-28_algeria-austria_video-buts.mp4 [50 mots, ~19s, 9:16].
+- `2026-06-29 23:43:57` — [Bloc6] 🎬 Video montee (analyse) : 2026-06-28_algeria-austria_video-analyse.mp4 [79 mots, ~30s, 9:16].
+- `2026-06-29 23:43:57` — [Bloc6] ✅ Termine : 2 video(s) montee(s).
+- `2026-06-29 23:43:57` — [Bloc6] ℹ️ GitHub Actions detecte — push gere par le workflow (auto-push ignore).
