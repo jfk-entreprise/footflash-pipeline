@@ -50,6 +50,19 @@ jobs:
           yt-dlp --version
           ffmpeg -version | head -n 1
 
+      - name: Preparation des cookies YouTube (si secret fourni)
+        env:
+          YOUTUBE_COOKIES: ${{ secrets.YOUTUBE_COOKIES }}
+        run: |
+          if [ -n "$YOUTUBE_COOKIES" ]; then
+            # Cookies ecrits HORS du repo ($RUNNER_TEMP) : jamais vus par git add.
+            echo "$YOUTUBE_COOKIES" | base64 -d > "$RUNNER_TEMP/cookies.txt"
+            echo "YOUTUBE_COOKIES_FILE=$RUNNER_TEMP/cookies.txt" >> "$GITHUB_ENV"
+            echo "Cookies YouTube prepares ($(wc -l < "$RUNNER_TEMP/cookies.txt") lignes)."
+          else
+            echo "Pas de secret YOUTUBE_COOKIES — yt-dlp sans cookies (peut echouer sur le bot-check)."
+          fi
+
       - name: Telechargement des clips officiels FIFA
         env:
           YOUTUBE_API_KEY:    ${{ secrets.YOUTUBE_API_KEY }}

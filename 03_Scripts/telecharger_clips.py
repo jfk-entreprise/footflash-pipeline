@@ -75,6 +75,18 @@ DOWNLOADED_FILE = BRUTS_DIR / ".downloaded.json"      # anti-doublon (matchs dej
 REQUEST_TIMEOUT = 30
 
 
+def _cookie_args() -> list[str]:
+    """Args yt-dlp pour les cookies YouTube, si fournis (contourne le bot-check CI).
+
+    Le workflow decode le secret YOUTUBE_COOKIES (base64) vers $RUNNER_TEMP/cookies.txt
+    et exporte YOUTUBE_COOKIES_FILE. Sans cookies -> [] (comportement inchange).
+    """
+    path = os.environ.get("YOUTUBE_COOKIES_FILE", "")
+    if path and Path(path).is_file():
+        return ["--cookies", path]
+    return []
+
+
 # --------------------------------------------------------------------------- #
 # Journalisation
 # --------------------------------------------------------------------------- #
@@ -195,7 +207,7 @@ def verify_official_fifa(video_url: str) -> dict | None:
     """
     try:
         out = subprocess.run(
-            ["yt-dlp", "-J", "--no-warnings", "--no-playlist", "--skip-download", video_url],
+            ["yt-dlp", *_cookie_args(), "-J", "--no-warnings", "--no-playlist", "--skip-download", video_url],
             capture_output=True, text=True, timeout=120,
         )
         if out.returncode != 0:
@@ -276,7 +288,7 @@ def discover_via_ytdlp_search(match: dict) -> str | None:
     query = f"ytsearch15:{match['home']} {match['away']} FIFA World Cup 2026 highlights"
     try:
         out = subprocess.run(
-            ["yt-dlp", "-J", "--no-warnings", "--flat-playlist", "--skip-download", query],
+            ["yt-dlp", *_cookie_args(), "-J", "--no-warnings", "--flat-playlist", "--skip-download", query],
             capture_output=True, text=True, timeout=120,
         )
         if out.returncode != 0:
@@ -344,6 +356,7 @@ def download_clip(video_url: str, base_name: str) -> Path | None:
     out_template = str(BRUTS_DIR / f"{base_name}_brut.%(ext)s")
     cmd = [
         "yt-dlp",
+        *_cookie_args(),
         "-f", "bv*[ext=mp4]+ba[ext=m4a]/b[ext=mp4]/b",
         "--merge-output-format", "mp4",
         "--no-playlist",

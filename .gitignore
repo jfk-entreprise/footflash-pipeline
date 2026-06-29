@@ -3,6 +3,8 @@
 *.env
 .env
 .env.*
+cookies.txt
+**/cookies.txt
 
 # === Etats internes du pipeline ===
 # NB : les fichiers d'etat anti-doublon (.processed/.downloaded/.analyzed/
