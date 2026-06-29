@@ -75,9 +75,9 @@ jobs:
       - name: Detection des matchs termines
         if: steps.fenetre.outputs.actif == 'true'
         env:
-          API_FOOTBALL_KEY:   ${{ secrets.API_FOOTBALL_KEY }}
-          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          TELEGRAM_CHAT_ID:   ${{ secrets.TELEGRAM_CHAT_ID }}
+          FOOTBALL_DATA_API_KEY: ${{ secrets.FOOTBALL_DATA_API_KEY }}
+          TELEGRAM_BOT_TOKEN:     ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID:       ${{ secrets.TELEGRAM_CHAT_ID }}
         run: |
           # On localise le script quel que soit le prefixe emoji du dossier 03_Scripts.
           SCRIPT="$(find . -name surveillance_matchs.py -path '*Scripts*' | head -n 1)"

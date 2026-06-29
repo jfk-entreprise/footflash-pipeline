@@ -4,9 +4,9 @@
 > En production, les secrets vivent **uniquement** dans les GitHub Secrets.
 > Pour un run LOCAL, copie ce fichier en `config.md` (gitignoré) et remplis les valeurs.
 
-## API-Football
-API_KEY=<ta_cle_api_football>
-BASE_URL=<https://v3.football.api-sports.io>
+## Football-Data.org (Bloc 1 — détection des matchs)
+FOOTBALL_DATA_API_KEY=<ta_cle_football_data_org>
+BASE_URL=<https://api.football-data.org/v4>
 
 ## Telegram
 TELEGRAM_BOT_TOKEN=<token_du_bot_telegram>
