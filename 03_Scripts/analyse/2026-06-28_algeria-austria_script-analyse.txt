@@ -1,0 +1,16 @@
+# Script ANALYSE — Algeria 3–3 Austria — 2026-06-28
+# Durée estimée : ~32 s (cible 90-120 s)
+# Scénario : Partage des points spectaculaire : Algeria 3–3 Austria.
+# Source : 2026-06-28_algeria-austria_moments.json
+# (Bloc 5 : ignorer les lignes commençant par #)
+
+[HOOK]
+Pourquoi Algeria et Austria n'ont-ils pas réussi à se départager ? Décryptage tactique.
+
+[CORPS]
+1. Un match équilibré où le système de jeu a fait la différence dans les détails.
+2. Le tournant s'est joué dans la bataille du milieu, sans fait de jeu marquant.
+3. Troisième clé : données statistiques limitées : analyse centrée sur les buts.
+
+[OUTRO]
+Tu valides cette lecture du match ? Donne ta version en commentaire et abonne-toi pour les prochaines analyses de la Coupe du Monde 2026 !

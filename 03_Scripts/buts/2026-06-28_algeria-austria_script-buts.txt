@@ -1,0 +1,13 @@
+# Script BUTS — Algeria 3–3 Austria — 2026-06-28
+# Durée estimée : ~20 s (cible 60-90 s)
+# Source : 2026-06-28_algeria-austria_moments.json
+# (Bloc 5 : ignorer les lignes commençant par #)
+
+[HOOK]
+3 buts partout : impossible de les départager, et tu vas comprendre pourquoi !
+
+[CORPS]
+Aucun but dans cette rencontre, mais l'intensité, elle, était bien là.
+
+[OUTRO]
+Quel but t'a fait bondir de ton canapé ? Dis-le en commentaire, et abonne-toi pour ne rien rater de la Coupe du Monde 2026 !

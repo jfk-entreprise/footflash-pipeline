@@ -205,3 +205,9 @@
 - `2026-06-29 23:39:29` — [Bloc3] ⏳ Clip absent pour 2026-06-29_brazil-japan_data.json — analyse reportee.
 - `2026-06-29 23:39:29` — [Bloc3] ✅ Termine : 1 analyse(s) generee(s).
 - `2026-06-29 23:39:29` — [Bloc3] ℹ️ GitHub Actions detecte — push gere par le workflow (auto-push ignore).
+- `2026-06-29 23:39:42` — [Bloc4] 🎙️ Script buts : 2026-06-28_algeria-austria_script-buts.txt (0 but(s)).
+- `2026-06-29 23:39:42` — [Bloc4] ✅ Termine : 1 script(s) buts genere(s).
+- `2026-06-29 23:39:42` — [Bloc4] ℹ️ GitHub Actions detecte — push gere par le workflow (auto-push ignore).
+- `2026-06-29 23:39:42` — [Bloc4] 🎙️ Script analyse : 2026-06-28_algeria-austria_script-analyse.txt.
+- `2026-06-29 23:39:42` — [Bloc4] ✅ Termine : 1 script(s) analyse genere(s).
+- `2026-06-29 23:39:42` — [Bloc4] ℹ️ GitHub Actions detecte — push gere par le workflow (auto-push ignore).
