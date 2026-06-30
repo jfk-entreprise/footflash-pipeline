@@ -1,0 +1,53 @@
+{
+  "fixture_id": 537416,
+  "source_api": "football-data.org/v4",
+  "recupere_le": "2026-06-30T23:58:29.199591+00:00",
+  "competition": {
+    "id": 2000,
+    "name": "FIFA World Cup",
+    "code": "WC",
+    "type": "CUP",
+    "emblem": "https://crests.football-data.org/wm26.png"
+  },
+  "match": {
+    "id": 537416,
+    "date": "2026-06-30T21:00:00Z",
+    "status": "FINISHED",
+    "stage": "LAST_32",
+    "group": null,
+    "venue": {
+      "name": null
+    }
+  },
+  "equipes": {
+    "home": {
+      "id": 773,
+      "name": "France"
+    },
+    "away": {
+      "id": 792,
+      "name": "Sweden"
+    }
+  },
+  "score": {
+    "buts": {
+      "home": 3,
+      "away": 0
+    },
+    "detail": {
+      "winner": "HOME_TEAM",
+      "duration": "REGULAR",
+      "fullTime": {
+        "home": 3,
+        "away": 0
+      },
+      "halfTime": {
+        "home": 1,
+        "away": 0
+      }
+    }
+  },
+  "events": [],
+  "statistics": [],
+  "lineups": []
+}
