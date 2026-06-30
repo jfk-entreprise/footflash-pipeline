@@ -264,3 +264,9 @@
 - `2026-06-29 23:54:43` — [Bloc2] ✅ Bloc 2 termine.
 - `2026-06-30 02:27:22` — [Bloc1] 🔎 Surveillance WC — fenetre UTC 2026-06-29 -> 2026-06-30
 - `2026-06-30 02:27:22` — [Bloc1] ℹ️ 5 match(s) dans la fenetre, aucun nouveau terminé.
+- `2026-06-30 06:39:58` — [Bloc1] 🔎 Surveillance WC — fenetre UTC 2026-06-29 -> 2026-06-30
+- `2026-06-30 06:40:00` — [Bloc1] ℹ️ Pas d'events détaillés pour 537418 (plan gratuit) — repli score seul.
+- `2026-06-30 06:40:00` — [Bloc1] 💾 Donnees sauvegardees : 2026-06-30_netherlands-morocco_data.json (Netherlands 3–4 Morocco, 0 but(s) détaillé(s))
+- `2026-06-30 06:40:00` — [Bloc1] 📨 Notification Telegram envoyée pour Netherlands-Morocco
+- `2026-06-30 06:40:00` — [Bloc1] ✅ Terminé : 1 match(s) traité(s).
+- `2026-06-30 06:40:00` — [Bloc1] ℹ️ GitHub Actions detecte — push gere par le workflow (auto-push ignore).

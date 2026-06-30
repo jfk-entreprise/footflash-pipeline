@@ -1,0 +1,65 @@
+{
+  "fixture_id": 537418,
+  "source_api": "football-data.org/v4",
+  "recupere_le": "2026-06-30T06:40:00.029034+00:00",
+  "competition": {
+    "id": 2000,
+    "name": "FIFA World Cup",
+    "code": "WC",
+    "type": "CUP",
+    "emblem": "https://crests.football-data.org/wm26.png"
+  },
+  "match": {
+    "id": 537418,
+    "date": "2026-06-30T01:00:00Z",
+    "status": "FINISHED",
+    "stage": "LAST_32",
+    "group": null,
+    "venue": {
+      "name": null
+    }
+  },
+  "equipes": {
+    "home": {
+      "id": 8601,
+      "name": "Netherlands"
+    },
+    "away": {
+      "id": 815,
+      "name": "Morocco"
+    }
+  },
+  "score": {
+    "buts": {
+      "home": 3,
+      "away": 4
+    },
+    "detail": {
+      "winner": "AWAY_TEAM",
+      "duration": "PENALTY_SHOOTOUT",
+      "fullTime": {
+        "home": 3,
+        "away": 4
+      },
+      "halfTime": {
+        "home": 0,
+        "away": 0
+      },
+      "regularTime": {
+        "home": 1,
+        "away": 1
+      },
+      "extraTime": {
+        "home": 0,
+        "away": 0
+      },
+      "penalties": {
+        "home": 2,
+        "away": 3
+      }
+    }
+  },
+  "events": [],
+  "statistics": [],
+  "lineups": []
+}
