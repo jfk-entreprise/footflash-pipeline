@@ -365,3 +365,5 @@
 - `2026-06-30 19:10:04` — [Bloc2] ✅ Bloc 2 termine.
 - `2026-06-30 21:05:28` — [Bloc1] 🔎 Surveillance WC — fenetre UTC 2026-06-29 -> 2026-06-30
 - `2026-06-30 21:05:29` — [Bloc1] ℹ️ 5 match(s) dans la fenetre, aucun nouveau terminé.
+- `2026-06-30 22:40:58` — [Bloc1] 🔎 Surveillance WC — fenetre UTC 2026-06-29 -> 2026-06-30
+- `2026-06-30 22:40:59` — [Bloc1] ℹ️ 5 match(s) dans la fenetre, aucun nouveau terminé.
