@@ -7,7 +7,7 @@ name: Bloc7 - Watcher validation
 
 on:
   schedule:
-    - cron: "*/5 12-23 * * *"   # toutes les 5 min, 12h->23h UTC (maitrise du cout Actions)
+    - cron: "*/5 * * * *"       # toutes les 5 min, 24h/24 (repo public : minutes illimitees)
   workflow_dispatch:
 
 concurrency:
