@@ -311,3 +311,5 @@
 - `2026-06-30 10:18:40` — [Bloc1] ℹ️ 5 match(s) dans la fenetre, aucun nouveau terminé.
 - `2026-06-30 12:25:47` — [Bloc1] 🔎 Surveillance WC — fenetre UTC 2026-06-29 -> 2026-06-30
 - `2026-06-30 12:25:47` — [Bloc1] ℹ️ 5 match(s) dans la fenetre, aucun nouveau terminé.
+- `2026-06-30 15:16:31` — [Bloc1] 🔎 Surveillance WC — fenetre UTC 2026-06-29 -> 2026-06-30
+- `2026-06-30 15:16:31` — [Bloc1] ℹ️ 5 match(s) dans la fenetre, aucun nouveau terminé.
