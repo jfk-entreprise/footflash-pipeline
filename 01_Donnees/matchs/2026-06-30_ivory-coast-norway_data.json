@@ -1,0 +1,53 @@
+{
+  "fixture_id": 537424,
+  "source_api": "football-data.org/v4",
+  "recupere_le": "2026-06-30T19:09:02.505517+00:00",
+  "competition": {
+    "id": 2000,
+    "name": "FIFA World Cup",
+    "code": "WC",
+    "type": "CUP",
+    "emblem": "https://crests.football-data.org/wm26.png"
+  },
+  "match": {
+    "id": 537424,
+    "date": "2026-06-30T17:00:00Z",
+    "status": "FINISHED",
+    "stage": "LAST_32",
+    "group": null,
+    "venue": {
+      "name": null
+    }
+  },
+  "equipes": {
+    "home": {
+      "id": 1935,
+      "name": "Ivory Coast"
+    },
+    "away": {
+      "id": 8872,
+      "name": "Norway"
+    }
+  },
+  "score": {
+    "buts": {
+      "home": 1,
+      "away": 2
+    },
+    "detail": {
+      "winner": "AWAY_TEAM",
+      "duration": "REGULAR",
+      "fullTime": {
+        "home": 1,
+        "away": 2
+      },
+      "halfTime": {
+        "home": 0,
+        "away": 1
+      }
+    }
+  },
+  "events": [],
+  "statistics": [],
+  "lineups": []
+}

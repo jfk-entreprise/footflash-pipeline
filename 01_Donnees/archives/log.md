@@ -315,3 +315,9 @@
 - `2026-06-30 15:16:31` — [Bloc1] ℹ️ 5 match(s) dans la fenetre, aucun nouveau terminé.
 - `2026-06-30 17:17:04` — [Bloc1] 🔎 Surveillance WC — fenetre UTC 2026-06-29 -> 2026-06-30
 - `2026-06-30 17:17:04` — [Bloc1] ℹ️ 5 match(s) dans la fenetre, aucun nouveau terminé.
+- `2026-06-30 19:09:01` — [Bloc1] 🔎 Surveillance WC — fenetre UTC 2026-06-29 -> 2026-06-30
+- `2026-06-30 19:09:02` — [Bloc1] ℹ️ Pas d'events détaillés pour 537424 (plan gratuit) — repli score seul.
+- `2026-06-30 19:09:02` — [Bloc1] 💾 Donnees sauvegardees : 2026-06-30_ivory-coast-norway_data.json (Ivory Coast 1–2 Norway, 0 but(s) détaillé(s))
+- `2026-06-30 19:09:02` — [Bloc1] 📨 Notification Telegram envoyée pour Ivory Coast-Norway
+- `2026-06-30 19:09:02` — [Bloc1] ✅ Terminé : 1 match(s) traité(s).
+- `2026-06-30 19:09:02` — [Bloc1] ℹ️ GitHub Actions detecte — push gere par le workflow (auto-push ignore).
