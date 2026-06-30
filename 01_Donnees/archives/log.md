@@ -307,3 +307,5 @@
 - `2026-06-30 06:40:46` — [Bloc2] ❌ yt-dlp a echoue (code 1) : ERROR: [youtube] vn-rwGtSt0A: Sign in to confirm you’re not a bot. Use --cookies-from-browser or --cookies for the authentication. See  https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp  for how to manually pass cookies. Also see  https://github.com/yt-dlp/yt-dlp/wiki/Extract
 - `2026-06-30 06:40:46` — [Bloc2] ❌ Echec telechargement pour Netherlands – Morocco.
 - `2026-06-30 06:40:47` — [Bloc2] ✅ Bloc 2 termine.
+- `2026-06-30 10:18:39` — [Bloc1] 🔎 Surveillance WC — fenetre UTC 2026-06-29 -> 2026-06-30
+- `2026-06-30 10:18:40` — [Bloc1] ℹ️ 5 match(s) dans la fenetre, aucun nouveau terminé.
