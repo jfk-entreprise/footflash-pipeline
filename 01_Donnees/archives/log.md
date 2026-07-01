@@ -428,3 +428,55 @@
 - `2026-07-01 08:03:02` — [Bloc1] 📨 Notification Telegram envoyée pour Mexico-Ecuador
 - `2026-07-01 08:03:02` — [Bloc1] ✅ Terminé : 1 match(s) traité(s).
 - `2026-07-01 08:03:02` — [Bloc1] ℹ️ GitHub Actions detecte — push gere par le workflow (auto-push ignore).
+- `2026-07-01 08:03:45` — [Bloc2] ▶️ Bloc 2 demarre — 10 match(s) a traiter.
+- `2026-07-01 08:03:45` — [Bloc2] 🔎 Recherche du highlight officiel FIFA : Algeria – Austria (2026-06-28_algeria-austria)
+- `2026-07-01 08:03:45` — [Bloc2] 🎯 (b) Candidat API @FIFA : « Highlights | Algeria 3-3 Austria | FIFA World Cup 2026™ »
+- `2026-07-01 08:03:46` — [Bloc2] ✅ Source CERTIFIEE officielle FIFA (channelId) via methode b/YouTube API.
+- `2026-07-01 08:03:47` — [Bloc2] ❌ yt-dlp a echoue (code 1) : ERROR: [youtube] 5Mvh0mqY8ik: Sign in to confirm you’re not a bot. Use --cookies-from-browser or --cookies for the authentication. See  https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp  for how to manually pass cookies. Also see  https://github.com/yt-dlp/yt-dlp/wiki/Extract
+- `2026-07-01 08:03:47` — [Bloc2] ❌ Echec telechargement pour Algeria – Austria.
+- `2026-07-01 08:03:47` — [Bloc2] 🔎 Recherche du highlight officiel FIFA :  –  (2026-06-28_equipe-equipe)
+- `2026-07-01 08:03:48` — [Bloc2] 🎯 (b) Candidat API @FIFA (repli) : « Highlights | Netherlands (2)1-1(3) Morocco | FIFA World Cup 2026™ »
+- `2026-07-01 08:03:48` — [Bloc2] ✅ Source CERTIFIEE officielle FIFA (channelId) via methode b/YouTube API.
+- `2026-07-01 08:03:49` — [Bloc2] ❌ yt-dlp a echoue (code 1) : ERROR: [youtube] vdnhUnGHwco: Sign in to confirm you’re not a bot. Use --cookies-from-browser or --cookies for the authentication. See  https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp  for how to manually pass cookies. Also see  https://github.com/yt-dlp/yt-dlp/wiki/Extract
+- `2026-07-01 08:03:49` — [Bloc2] ❌ Echec telechargement pour  – .
+- `2026-07-01 08:03:50` — [Bloc2] 🔎 Recherche du highlight officiel FIFA : Jordan – Argentina (2026-06-28_jordan-argentina)
+- `2026-07-01 08:03:50` — [Bloc2] 🎯 (b) Candidat API @FIFA : « Highlights | Jordan 1-3 Argentina | FIFA World Cup 2026™ »
+- `2026-07-01 08:03:50` — [Bloc2] ✅ Source CERTIFIEE officielle FIFA (channelId) via methode b/YouTube API.
+- `2026-07-01 08:03:52` — [Bloc2] ❌ yt-dlp a echoue (code 1) : ERROR: [youtube] M6mpXtMm93M: Sign in to confirm you’re not a bot. Use --cookies-from-browser or --cookies for the authentication. See  https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp  for how to manually pass cookies. Also see  https://github.com/yt-dlp/yt-dlp/wiki/Extract
+- `2026-07-01 08:03:52` — [Bloc2] ❌ Echec telechargement pour Jordan – Argentina.
+- `2026-07-01 08:03:52` — [Bloc2] 🔎 Recherche du highlight officiel FIFA : South Africa – Canada (2026-06-28_south-africa-canada)
+- `2026-07-01 08:03:53` — [Bloc2] 🎯 (b) Candidat API @FIFA : « Highlights | South Africa 0-1 Canada | FIFA World Cup 2026™ »
+- `2026-07-01 08:03:53` — [Bloc2] ✅ Source CERTIFIEE officielle FIFA (channelId) via methode b/YouTube API.
+- `2026-07-01 08:03:54` — [Bloc2] ❌ yt-dlp a echoue (code 1) : ERROR: [youtube] uv-FSqzHXAo: Sign in to confirm you’re not a bot. Use --cookies-from-browser or --cookies for the authentication. See  https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp  for how to manually pass cookies. Also see  https://github.com/yt-dlp/yt-dlp/wiki/Extract
+- `2026-07-01 08:03:54` — [Bloc2] ❌ Echec telechargement pour South Africa – Canada.
+- `2026-07-01 08:03:54` — [Bloc2] 🔎 Recherche du highlight officiel FIFA : Brazil – Japan (2026-06-29_brazil-japan)
+- `2026-07-01 08:03:55` — [Bloc2] 🎯 (b) Candidat API @FIFA : « Highlights | Brazil 2-1 Japan | FIFA World Cup 2026™ »
+- `2026-07-01 08:03:55` — [Bloc2] ✅ Source CERTIFIEE officielle FIFA (channelId) via methode b/YouTube API.
+- `2026-07-01 08:03:56` — [Bloc2] ❌ yt-dlp a echoue (code 1) : ERROR: [youtube] Fd_KYjbmws4: Sign in to confirm you’re not a bot. Use --cookies-from-browser or --cookies for the authentication. See  https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp  for how to manually pass cookies. Also see  https://github.com/yt-dlp/yt-dlp/wiki/Extract
+- `2026-07-01 08:03:56` — [Bloc2] ❌ Echec telechargement pour Brazil – Japan.
+- `2026-07-01 08:03:57` — [Bloc2] 🔎 Recherche du highlight officiel FIFA : Germany – Paraguay (2026-06-29_germany-paraguay)
+- `2026-07-01 08:03:57` — [Bloc2] 🎯 (b) Candidat API @FIFA : « Highlights | Germany (3)1-1(4) Paraguay | FIFA World Cup 2026™ »
+- `2026-07-01 08:03:57` — [Bloc2] ✅ Source CERTIFIEE officielle FIFA (channelId) via methode b/YouTube API.
+- `2026-07-01 08:03:58` — [Bloc2] ❌ yt-dlp a echoue (code 1) : ERROR: [youtube] Gw6vNwAvkTs: Sign in to confirm you’re not a bot. Use --cookies-from-browser or --cookies for the authentication. See  https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp  for how to manually pass cookies. Also see  https://github.com/yt-dlp/yt-dlp/wiki/Extract
+- `2026-07-01 08:03:58` — [Bloc2] ❌ Echec telechargement pour Germany – Paraguay.
+- `2026-07-01 08:03:59` — [Bloc2] 🔎 Recherche du highlight officiel FIFA : France – Sweden (2026-06-30_france-sweden)
+- `2026-07-01 08:03:59` — [Bloc2] 🎯 (b) Candidat API @FIFA : « France 🆚 Sweden #FIFAWorldCupOnYT »
+- `2026-07-01 08:03:59` — [Bloc2] ✅ Source CERTIFIEE officielle FIFA (channelId) via methode b/YouTube API.
+- `2026-07-01 08:04:01` — [Bloc2] ❌ yt-dlp a echoue (code 1) : ERROR: [youtube] 3U2RqRnuXUc: Sign in to confirm you’re not a bot. Use --cookies-from-browser or --cookies for the authentication. See  https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp  for how to manually pass cookies. Also see  https://github.com/yt-dlp/yt-dlp/wiki/Extract
+- `2026-07-01 08:04:01` — [Bloc2] ❌ Echec telechargement pour France – Sweden.
+- `2026-07-01 08:04:01` — [Bloc2] 🔎 Recherche du highlight officiel FIFA : Ivory Coast – Norway (2026-06-30_ivory-coast-norway)
+- `2026-07-01 08:04:02` — [Bloc2] 🎯 (b) Candidat API @FIFA (repli) : « Côte d’Ivoire 🆚 Norway #FIFAWorldCupOnYT »
+- `2026-07-01 08:04:02` — [Bloc2] ✅ Source CERTIFIEE officielle FIFA (channelId) via methode b/YouTube API.
+- `2026-07-01 08:04:03` — [Bloc2] ❌ yt-dlp a echoue (code 1) : ERROR: [youtube] jd-1XtKhHQk: Sign in to confirm you’re not a bot. Use --cookies-from-browser or --cookies for the authentication. See  https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp  for how to manually pass cookies. Also see  https://github.com/yt-dlp/yt-dlp/wiki/Extract
+- `2026-07-01 08:04:03` — [Bloc2] ❌ Echec telechargement pour Ivory Coast – Norway.
+- `2026-07-01 08:04:03` — [Bloc2] 🔎 Recherche du highlight officiel FIFA : Netherlands – Morocco (2026-06-30_netherlands-morocco)
+- `2026-07-01 08:04:04` — [Bloc2] 🎯 (b) Candidat API @FIFA : « Highlights | Netherlands (2)1-1(3) Morocco | FIFA World Cup 2026™ »
+- `2026-07-01 08:04:04` — [Bloc2] ✅ Source CERTIFIEE officielle FIFA (channelId) via methode b/YouTube API.
+- `2026-07-01 08:04:05` — [Bloc2] ❌ yt-dlp a echoue (code 1) : ERROR: [youtube] vdnhUnGHwco: Sign in to confirm you’re not a bot. Use --cookies-from-browser or --cookies for the authentication. See  https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp  for how to manually pass cookies. Also see  https://github.com/yt-dlp/yt-dlp/wiki/Extract
+- `2026-07-01 08:04:05` — [Bloc2] ❌ Echec telechargement pour Netherlands – Morocco.
+- `2026-07-01 08:04:06` — [Bloc2] 🔎 Recherche du highlight officiel FIFA : Mexico – Ecuador (2026-07-01_mexico-ecuador)
+- `2026-07-01 08:04:06` — [Bloc2] 🎯 (b) Candidat API @FIFA : « 15-Minute Match: Mexico vs Ecuador | 2002 Thriller »
+- `2026-07-01 08:04:06` — [Bloc2] ✅ Source CERTIFIEE officielle FIFA (channelId) via methode b/YouTube API.
+- `2026-07-01 08:04:08` — [Bloc2] ❌ yt-dlp a echoue (code 1) : ERROR: [youtube] lUkClV-PWyA: Sign in to confirm you’re not a bot. Use --cookies-from-browser or --cookies for the authentication. See  https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp  for how to manually pass cookies. Also see  https://github.com/yt-dlp/yt-dlp/wiki/Extract
+- `2026-07-01 08:04:08` — [Bloc2] ❌ Echec telechargement pour Mexico – Ecuador.
+- `2026-07-01 08:04:08` — [Bloc2] ✅ Bloc 2 termine.
