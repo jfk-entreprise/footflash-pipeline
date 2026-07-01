@@ -422,3 +422,9 @@
 - `2026-06-30 23:59:38` — [Bloc2] ✅ Bloc 2 termine.
 - `2026-07-01 03:51:17` — [Bloc1] 🔎 Surveillance WC — fenetre UTC 2026-06-30 -> 2026-07-01
 - `2026-07-01 03:51:17` — [Bloc1] ℹ️ 7 match(s) dans la fenetre, aucun nouveau terminé.
+- `2026-07-01 08:03:00` — [Bloc1] 🔎 Surveillance WC — fenetre UTC 2026-06-30 -> 2026-07-01
+- `2026-07-01 08:03:01` — [Bloc1] ℹ️ Pas d'events détaillés pour 537425 (plan gratuit) — repli score seul.
+- `2026-07-01 08:03:01` — [Bloc1] 💾 Donnees sauvegardees : 2026-07-01_mexico-ecuador_data.json (Mexico 2–0 Ecuador, 0 but(s) détaillé(s))
+- `2026-07-01 08:03:02` — [Bloc1] 📨 Notification Telegram envoyée pour Mexico-Ecuador
+- `2026-07-01 08:03:02` — [Bloc1] ✅ Terminé : 1 match(s) traité(s).
+- `2026-07-01 08:03:02` — [Bloc1] ℹ️ GitHub Actions detecte — push gere par le workflow (auto-push ignore).

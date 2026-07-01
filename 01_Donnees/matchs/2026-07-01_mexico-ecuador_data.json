@@ -1,0 +1,53 @@
+{
+  "fixture_id": 537425,
+  "source_api": "football-data.org/v4",
+  "recupere_le": "2026-07-01T08:03:01.605348+00:00",
+  "competition": {
+    "id": 2000,
+    "name": "FIFA World Cup",
+    "code": "WC",
+    "type": "CUP",
+    "emblem": "https://crests.football-data.org/wm26.png"
+  },
+  "match": {
+    "id": 537425,
+    "date": "2026-07-01T01:00:00Z",
+    "status": "FINISHED",
+    "stage": "LAST_32",
+    "group": null,
+    "venue": {
+      "name": null
+    }
+  },
+  "equipes": {
+    "home": {
+      "id": 769,
+      "name": "Mexico"
+    },
+    "away": {
+      "id": 791,
+      "name": "Ecuador"
+    }
+  },
+  "score": {
+    "buts": {
+      "home": 2,
+      "away": 0
+    },
+    "detail": {
+      "winner": "HOME_TEAM",
+      "duration": "REGULAR",
+      "fullTime": {
+        "home": 2,
+        "away": 0
+      },
+      "halfTime": {
+        "home": 2,
+        "away": 0
+      }
+    }
+  },
+  "events": [],
+  "statistics": [],
+  "lineups": []
+}
