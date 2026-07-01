@@ -551,3 +551,5 @@
 - `2026-07-01 18:18:57` — [Bloc2] ✅ Bloc 2 termine.
 - `2026-07-01 20:17:04` — [Bloc1] 🔎 Surveillance WC — fenetre UTC 2026-06-30 -> 2026-07-01
 - `2026-07-01 20:17:05` — [Bloc1] ℹ️ 7 match(s) dans la fenetre, aucun nouveau terminé.
+- `2026-07-01 21:50:22` — [Bloc1] 🔎 Surveillance WC — fenetre UTC 2026-06-30 -> 2026-07-01
+- `2026-07-01 21:50:22` — [Bloc1] ℹ️ 7 match(s) dans la fenetre, aucun nouveau terminé.
