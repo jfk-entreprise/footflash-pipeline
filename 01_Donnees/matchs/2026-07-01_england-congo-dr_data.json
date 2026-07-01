@@ -1,0 +1,53 @@
+{
+  "fixture_id": 537426,
+  "source_api": "football-data.org/v4",
+  "recupere_le": "2026-07-01T18:17:45.883736+00:00",
+  "competition": {
+    "id": 2000,
+    "name": "FIFA World Cup",
+    "code": "WC",
+    "type": "CUP",
+    "emblem": "https://crests.football-data.org/wm26.png"
+  },
+  "match": {
+    "id": 537426,
+    "date": "2026-07-01T16:00:00Z",
+    "status": "FINISHED",
+    "stage": "LAST_32",
+    "group": null,
+    "venue": {
+      "name": null
+    }
+  },
+  "equipes": {
+    "home": {
+      "id": 770,
+      "name": "England"
+    },
+    "away": {
+      "id": 1934,
+      "name": "Congo DR"
+    }
+  },
+  "score": {
+    "buts": {
+      "home": 2,
+      "away": 1
+    },
+    "detail": {
+      "winner": "HOME_TEAM",
+      "duration": "REGULAR",
+      "fullTime": {
+        "home": 2,
+        "away": 1
+      },
+      "halfTime": {
+        "home": 0,
+        "away": 1
+      }
+    }
+  },
+  "events": [],
+  "statistics": [],
+  "lineups": []
+}

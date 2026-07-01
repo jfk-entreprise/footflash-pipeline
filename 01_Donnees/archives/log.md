@@ -486,3 +486,9 @@
 - `2026-07-01 13:53:15` — [Bloc1] ℹ️ 7 match(s) dans la fenetre, aucun nouveau terminé.
 - `2026-07-01 16:16:28` — [Bloc1] 🔎 Surveillance WC — fenetre UTC 2026-06-30 -> 2026-07-01
 - `2026-07-01 16:16:29` — [Bloc1] ℹ️ 7 match(s) dans la fenetre, aucun nouveau terminé.
+- `2026-07-01 18:17:44` — [Bloc1] 🔎 Surveillance WC — fenetre UTC 2026-06-30 -> 2026-07-01
+- `2026-07-01 18:17:45` — [Bloc1] ℹ️ Pas d'events détaillés pour 537426 (plan gratuit) — repli score seul.
+- `2026-07-01 18:17:45` — [Bloc1] 💾 Donnees sauvegardees : 2026-07-01_england-congo-dr_data.json (England 2–1 Congo DR, 0 but(s) détaillé(s))
+- `2026-07-01 18:17:46` — [Bloc1] 📨 Notification Telegram envoyée pour England-Congo DR
+- `2026-07-01 18:17:46` — [Bloc1] ✅ Terminé : 1 match(s) traité(s).
+- `2026-07-01 18:17:46` — [Bloc1] ℹ️ GitHub Actions detecte — push gere par le workflow (auto-push ignore).
