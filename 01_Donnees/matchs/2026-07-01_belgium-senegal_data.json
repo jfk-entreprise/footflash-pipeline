@@ -1,0 +1,61 @@
+{
+  "fixture_id": 537422,
+  "source_api": "football-data.org/v4",
+  "recupere_le": "2026-07-01T23:02:20.184795+00:00",
+  "competition": {
+    "id": 2000,
+    "name": "FIFA World Cup",
+    "code": "WC",
+    "type": "CUP",
+    "emblem": "https://crests.football-data.org/wm26.png"
+  },
+  "match": {
+    "id": 537422,
+    "date": "2026-07-01T20:00:00Z",
+    "status": "FINISHED",
+    "stage": "LAST_32",
+    "group": null,
+    "venue": {
+      "name": null
+    }
+  },
+  "equipes": {
+    "home": {
+      "id": 805,
+      "name": "Belgium"
+    },
+    "away": {
+      "id": 804,
+      "name": "Senegal"
+    }
+  },
+  "score": {
+    "buts": {
+      "home": 3,
+      "away": 2
+    },
+    "detail": {
+      "winner": "HOME_TEAM",
+      "duration": "REGULAR",
+      "fullTime": {
+        "home": 3,
+        "away": 2
+      },
+      "halfTime": {
+        "home": 0,
+        "away": 1
+      },
+      "regularTime": {
+        "home": null,
+        "away": null
+      },
+      "extraTime": {
+        "home": 1,
+        "away": 0
+      }
+    }
+  },
+  "events": [],
+  "statistics": [],
+  "lineups": []
+}

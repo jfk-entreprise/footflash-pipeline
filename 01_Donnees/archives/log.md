@@ -553,3 +553,9 @@
 - `2026-07-01 20:17:05` — [Bloc1] ℹ️ 7 match(s) dans la fenetre, aucun nouveau terminé.
 - `2026-07-01 21:50:22` — [Bloc1] 🔎 Surveillance WC — fenetre UTC 2026-06-30 -> 2026-07-01
 - `2026-07-01 21:50:22` — [Bloc1] ℹ️ 7 match(s) dans la fenetre, aucun nouveau terminé.
+- `2026-07-01 23:02:19` — [Bloc1] 🔎 Surveillance WC — fenetre UTC 2026-06-30 -> 2026-07-01
+- `2026-07-01 23:02:20` — [Bloc1] ℹ️ Pas d'events détaillés pour 537422 (plan gratuit) — repli score seul.
+- `2026-07-01 23:02:20` — [Bloc1] 💾 Donnees sauvegardees : 2026-07-01_belgium-senegal_data.json (Belgium 3–2 Senegal, 0 but(s) détaillé(s))
+- `2026-07-01 23:02:20` — [Bloc1] 📨 Notification Telegram envoyée pour Belgium-Senegal
+- `2026-07-01 23:02:20` — [Bloc1] ✅ Terminé : 1 match(s) traité(s).
+- `2026-07-01 23:02:20` — [Bloc1] ℹ️ GitHub Actions detecte — push gere par le workflow (auto-push ignore).
