@@ -621,3 +621,5 @@
 - `2026-07-01 23:03:38` — [Bloc2] ❌ yt-dlp a echoue (code 1) : ERROR: [youtube] h7qVCA2s6Ps: Sign in to confirm you’re not a bot. Use --cookies-from-browser or --cookies for the authentication. See  https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp  for how to manually pass cookies. Also see  https://github.com/yt-dlp/yt-dlp/wiki/Extract
 - `2026-07-01 23:03:38` — [Bloc2] ❌ Echec telechargement pour Mexico – Ecuador.
 - `2026-07-01 23:03:39` — [Bloc2] ✅ Bloc 2 termine.
+- `2026-07-02 01:25:37` — [Bloc1] 🔎 Surveillance WC — fenetre UTC 2026-07-01 -> 2026-07-02
+- `2026-07-02 01:25:38` — [Bloc1] ℹ️ 6 match(s) dans la fenetre, aucun nouveau terminé.
