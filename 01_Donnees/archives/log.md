@@ -696,3 +696,5 @@
 - `2026-07-02 05:40:33` — [Bloc2] ❌ yt-dlp a echoue (code 1) : ERROR: [youtube] ZgiLkk8BtSY: Sign in to confirm you’re not a bot. Use --cookies-from-browser or --cookies for the authentication. See  https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp  for how to manually pass cookies. Also see  https://github.com/yt-dlp/yt-dlp/wiki/Extract
 - `2026-07-02 05:40:33` — [Bloc2] ❌ Echec telechargement pour United States – Bosnia-Herzegovina.
 - `2026-07-02 05:40:34` — [Bloc2] ✅ Bloc 2 termine.
+- `2026-07-02 08:32:11` — [Bloc1] 🔎 Surveillance WC — fenetre UTC 2026-07-01 -> 2026-07-02
+- `2026-07-02 08:32:12` — [Bloc1] ℹ️ 6 match(s) dans la fenetre, aucun nouveau terminé.
