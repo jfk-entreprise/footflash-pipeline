@@ -1,0 +1,53 @@
+{
+  "fixture_id": 537421,
+  "source_api": "football-data.org/v4",
+  "recupere_le": "2026-07-02T05:39:27.451870+00:00",
+  "competition": {
+    "id": 2000,
+    "name": "FIFA World Cup",
+    "code": "WC",
+    "type": "CUP",
+    "emblem": "https://crests.football-data.org/wm26.png"
+  },
+  "match": {
+    "id": 537421,
+    "date": "2026-07-02T00:00:00Z",
+    "status": "FINISHED",
+    "stage": "LAST_32",
+    "group": null,
+    "venue": {
+      "name": null
+    }
+  },
+  "equipes": {
+    "home": {
+      "id": 771,
+      "name": "United States"
+    },
+    "away": {
+      "id": 1060,
+      "name": "Bosnia-Herzegovina"
+    }
+  },
+  "score": {
+    "buts": {
+      "home": 2,
+      "away": 0
+    },
+    "detail": {
+      "winner": "HOME_TEAM",
+      "duration": "REGULAR",
+      "fullTime": {
+        "home": 2,
+        "away": 0
+      },
+      "halfTime": {
+        "home": 1,
+        "away": 0
+      }
+    }
+  },
+  "events": [],
+  "statistics": [],
+  "lineups": []
+}

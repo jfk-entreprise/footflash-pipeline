@@ -623,3 +623,9 @@
 - `2026-07-01 23:03:39` — [Bloc2] ✅ Bloc 2 termine.
 - `2026-07-02 01:25:37` — [Bloc1] 🔎 Surveillance WC — fenetre UTC 2026-07-01 -> 2026-07-02
 - `2026-07-02 01:25:38` — [Bloc1] ℹ️ 6 match(s) dans la fenetre, aucun nouveau terminé.
+- `2026-07-02 05:39:26` — [Bloc1] 🔎 Surveillance WC — fenetre UTC 2026-07-01 -> 2026-07-02
+- `2026-07-02 05:39:27` — [Bloc1] ℹ️ Pas d'events détaillés pour 537421 (plan gratuit) — repli score seul.
+- `2026-07-02 05:39:27` — [Bloc1] 💾 Donnees sauvegardees : 2026-07-02_united-states-bosnia-herzegovina_data.json (United States 2–0 Bosnia-Herzegovina, 0 but(s) détaillé(s))
+- `2026-07-02 05:39:27` — [Bloc1] 📨 Notification Telegram envoyée pour United States-Bosnia-Herzegovina
+- `2026-07-02 05:39:27` — [Bloc1] ✅ Terminé : 1 match(s) traité(s).
+- `2026-07-02 05:39:27` — [Bloc1] ℹ️ GitHub Actions detecte — push gere par le workflow (auto-push ignore).
